@@ -533,7 +533,7 @@ const Login = ({ model }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-gray-100 py-4 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -542,7 +542,7 @@ const Login = ({ model }) => {
       >
         <div className="p-8">
           <div className="flex flex-col items-center">
-            <h1 className="text-3xl font-light text-gray-800 mb-1">
+            <h1 className="text-3xl font-light text-gray-800 mb-4">
               <span className="text-red-800 font-medium">
                 {t("welcome_back")}
               </span>

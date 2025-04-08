@@ -65,8 +65,10 @@ const LoginAdmin = ({ model }) => {
       >
         <div className="p-8">
           <div className="flex flex-col items-center">
-            <h1 className="text-3xl font-light text-gray-800 mb-1">
-              <span className="text-red-800 font-medium">Admin</span>
+            <h1 className="text-3xl font-light text-gray-800 mb-4">
+              <span className="text-red-800 font-medium">
+                {t("welcome_back")} Admin
+              </span>
             </h1>
 
             {isLoading ? (

@@ -98,22 +98,33 @@
   "modificaBorgo": "Le informazioni sono sbagliate? Modifica il borgo nei campi sottostanti",
 
   "place": "Luogo",
+  "view_on_map": "Visualizza sulla mappa",
+  "book": "Prenota",
+  "book_your_visit": "Prenota il tuo posto",
+  "services": "Servizi quotidiani",
   "description": "Descrizione",
+  "amenities": "Servizi",
   "internet_speed_2": "Velocità Internet",
   "internet_speed_info": "Qualità media della connessione locale del wi-fi, dacci uno sguardo",
   "house_price": "Prezzo medio delle case in vendita",
   "house_price_info": "Vorresti trasferirti e comprare casa qui? Dai un'occhiata ai prezzi qui sopra",
-  "airbnb_price": "Prezzo medio per un Airbnb",
+  "airbnb_price": "Prezzo medio di un Airbnb",
   "airbnb_price_info": "Al momento non abbiamo ancora una struttura dove ospitare tutti i membri, ma qui sopra c'è un prezzo indicativo per un gruppo di 4 persone (il numero è puramente arbitrario)",
   "experience": "Esperienze",
   "experience_info": "Esplora il borgo! Fai le esperienze locali, non te ne pentirai.",
   "need_more": "Hai bisogno di più? Premi uno dei pulsanti qui sotto per ottenere più informazioni sui servizi locali",
   "nearest_airport": "Aeroporto più vicino",
+  "airport_info": "Aeroporto più vicino al borgo, per raggiungerlo facilmente. Tutti gli aeroporti distano circa 1 ora di auto",
   "nearest_hospital": "Ospedale più vicino",
+  "hospital_info": "Ospedale più vicino al borgo",
   "app_services": "Servizi APP IO",
+  "app_info": "Servizi pubblici disponibili tramite l'app IO",
   "schools": "Scuole",
+  "school_info": "Scuole disponibili nel borgo",
   "municipality_site": "Sito del comune",
+  "municipality_info": "Sito ufficiale del comune, per rimanere aggiornato su eventi e notizie",
   "coworking": "Co-Working",
+  "coworking_info": "Spazio di coworking dove puoi lavorare, studiare e incontrare persone",
 
   "specialization": "Specializzazione",
 
@@ -142,7 +153,6 @@
   "borghi": "Borghi",
   "contacts": "Contatti",
 
-  "deutsch": "🇩🇪 Tedesco",
   "english": "🇬🇧 Inglese",
   "italian": "🇮🇹 Italiano",
 
@@ -166,6 +176,15 @@
 
   "loader": "Caricamento...",
 
+  "personal_info": "Informazioni personali",
+  "account_details": "Dettagli account",
+
+  "view_details": "Visualizza i dettagli",
+
+  "continue": "Continua",
+  "back": "Indietro",
+  "complete_registration": "Completa la registrazione",
+
   "booking": "Prenota un'esperienza",
 
   "seeYou": "Arrivederci!",
@@ -178,8 +197,6 @@
     "goal_2": "Raggiungibile con un'adeguata innovazione: promuovere eventi finalizzati allo sviluppo delle competenze digitali e alla diffusione delle capacità imprenditoriali.",
     "goal_3": "Realizzabile attraverso partnership con aziende locali, servizi infrastrutturali e la pubblica amministrazione"
   },
-
-  "slowness": "Livello di lentezza:",
 
   "reservation": "Le tue prenotazioni",
 
