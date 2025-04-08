@@ -1,10 +1,11 @@
 "use strict";
 
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 var _reactRouterDom = require("react-router-dom");
 var _framerMotion = require("framer-motion");
 var _AuthContext = require("../context/AuthContext");
@@ -37,14 +38,20 @@ var _PasswordResetRequest = _interopRequireDefault(require("../pages/PasswordRes
 var _PasswordReset = _interopRequireDefault(require("../pages/PasswordReset/PasswordReset.jsx"));
 var _PrivateRoute = _interopRequireDefault(require("../components/PrivateRoute"));
 var _UpdateProfile = _interopRequireDefault(require("./UpdateProfile.jsx"));
+var _UpdateAdmin = _interopRequireDefault(require("./UpdateAdmin.jsx"));
 var _LoginAdmin = _interopRequireDefault(require("./LoginAdmin.jsx"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function Pages() {
   var _useAuthContext = (0, _useAuthContext2.useAuthContext)(),
     user = _useAuthContext.user,
     admin = _useAuthContext.admin;
+  var contactRef = (0, _react.useRef)(null);
   var location = (0, _reactRouterDom.useLocation)();
-  return /*#__PURE__*/_react["default"].createElement(_AuthContext.AuthContextProvider, null, /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_Nav["default"], null), /*#__PURE__*/_react["default"].createElement(_framerMotion.AnimatePresence, null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Routes, {
+  return /*#__PURE__*/_react["default"].createElement(_AuthContext.AuthContextProvider, null, /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_Nav["default"], {
+    contactRef: contactRef
+  }), /*#__PURE__*/_react["default"].createElement(_framerMotion.AnimatePresence, null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Routes, {
     location: location,
     key: location.pathname
   }, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
@@ -97,23 +104,15 @@ function Pages() {
     element: /*#__PURE__*/_react["default"].createElement(_Goals["default"], null)
   }), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
     path: "/addBorgo",
-    element: admin && admin.token ? /*#__PURE__*/_react["default"].createElement(_PrivateRoute["default"], null, /*#__PURE__*/_react["default"].createElement(_AddBorgo["default"], null)) : /*#__PURE__*/_react["default"].createElement(_LoginAdmin["default"], null)
-  }), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
-    path: "/favourites",
-    element: user ? /*#__PURE__*/_react["default"].createElement(_PrivateRoute["default"], null, /*#__PURE__*/_react["default"].createElement(_Favourites["default"], {
-      model: "user"
-    })) : /*#__PURE__*/_react["default"].createElement(_Login["default"], null)
-  }), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
-    path: "/reservation",
-    element: /*#__PURE__*/_react["default"].createElement(_Reservation["default"], null)
-  }), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
-    path: "/registrationadmin",
-    element: /*#__PURE__*/_react["default"].createElement(_RegistrationAdmin["default"], null)
-  }), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
-    path: "/dashboardadmin",
-    element: admin && admin.token ? /*#__PURE__*/_react["default"].createElement(_PrivateRoute["default"], null, /*#__PURE__*/_react["default"].createElement(_DashboardAdmin["default"], {
-      model: "admin"
-    })) : /*#__PURE__*/_react["default"].createElement(_LoginAdmin["default"], null)
+    element:
+    /*#__PURE__*/
+    // admin && admin.token ? (
+    //   <PrivateRoute>
+    _react["default"].createElement(_AddBorgo["default"], null)
+    //   </PrivateRoute>
+    // ) : (
+    //   <LoginAdmin />
+    // )
   }), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
     path: "/deleteborgo",
     element: /*#__PURE__*/_react["default"].createElement(_DeleteBorgo["default"], null)
@@ -127,6 +126,30 @@ function Pages() {
     // <PrivateRoute>
     _react["default"].createElement(_BorghiToUpdate["default"], null)
     // </PrivateRoute>
+  }), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
+    path: "/favourites",
+    element: user ? /*#__PURE__*/_react["default"].createElement(_PrivateRoute["default"], null, /*#__PURE__*/_react["default"].createElement(_Favourites["default"], {
+      model: "user"
+    })) : /*#__PURE__*/_react["default"].createElement(_Login["default"], null)
+  }), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
+    path: "/reservation",
+    element: /*#__PURE__*/_react["default"].createElement(_Reservation["default"], null)
+  }), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
+    path: "/registrationadmin",
+    element: /*#__PURE__*/_react["default"].createElement(_RegistrationAdmin["default"], null)
+  }), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
+    path: "/dashboardadmin",
+    element:
+    /*#__PURE__*/
+    // admin ? (
+    // <PrivateRoute>
+    _react["default"].createElement(_DashboardAdmin["default"], {
+      model: "admin"
+    })
+    // </PrivateRoute>
+    // ) : (
+    //   <LoginAdmin />
+    // )
   }), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
     path: "/dashboard",
     element: user ? /*#__PURE__*/_react["default"].createElement(_PrivateRoute["default"], null, /*#__PURE__*/_react["default"].createElement(_Dashboard["default"], {
@@ -166,6 +189,11 @@ function Pages() {
     path: "/user/update/",
     element: /*#__PURE__*/_react["default"].createElement(_UpdateProfile["default"], {
       model: "user"
+    })
+  }), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
+    path: "/admin/update/",
+    element: /*#__PURE__*/_react["default"].createElement(_UpdateAdmin["default"], {
+      model: "admin"
     })
   })))));
 }

@@ -5,15 +5,23 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _firebase = require("../utils/firebase");
+var _react = _interopRequireWildcard(require("react"));
 var _reactRouterDom = require("react-router-dom");
-var _reactI18next = require("react-i18next");
 var _Loader = _interopRequireDefault(require("../components/Loader"));
+var _reactI18next = require("react-i18next");
+var _useAuthContext2 = require("../hooks/auth/useAuthContext");
+var _useManageAuth2 = require("../hooks/auth/useManageAuth");
+var _useManageAdmins = require("../hooks/admins/useManageAdmins");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; } // import React from "react";
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; } // ------------- PRIMO ROUND ------------------
+// import React from "react";
 // import { auth } from "../utils/firebase";
 // // import { useAuthState } from "react-firebase-hooks/auth";
 // import Loader from "../components/Loader";
@@ -108,60 +116,332 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 //   );
 // }
 // export default DashboardAdmin;
+// ------------- SECONDO ROUND ------------------
+// import React from "react";
+// import { auth } from "../utils/firebase";
+// import { Link, useNavigate } from "react-router-dom";
+// import { useTranslation } from "react-i18next";
+// import Loader from "../components/Loader";
+// function DashboardAdmin() {
+//   const navigate = useNavigate();
+//   const { t } = useTranslation();
+//   const handleSignOut = () => {
+//     setTimeout(async () => {
+//       auth.signOut().then(() => {
+//         navigate("/signout");
+//       });
+//     }, 2000);
+//   };
+//   return (
+//     <div className="min-h-screen flex justify-center bg-gradient-to-t relative">
+//       <div
+//         className="absolute inset-0 bg-cover bg-center opacity-30"
+//         style={{
+//           backgroundImage: `url(https://images.unsplash.com/photo-1515859005217-8a1f08870f59?q=80&w=2010&auto=format&fit=crop)`,
+//         }}
+//       ></div>
+//       <div className="flex flex-1 max-w-4xl mx-auto z-10 bg-white shadow-lg rounded-lg p-10 my-20 text-center">
+//         <div className="w-full">
+//           <h1 className="text-3xl font-extrabold mb-5">
+//             {t("hello")}{" "}
+//             <span role="img" aria-label="hi">
+//               👋
+//             </span>
+//           </h1>
+//           <p className="text-lg mb-8">{t("what_you_can_do")}</p>
+//           <div className="grid gap-4 md:grid-cols-2">
+//             <Link to="/borghi" className="btn-primary">
+//               {t("access_borghi")}
+//             </Link>
+//             <Link to="/addborgo" className="btn-primary">
+//               Aggiungere un borgo
+//             </Link>
+//             <Link to="/borghitoupdate" className="btn-primary">
+//               Modifica un borgo
+//             </Link>
+//             <Link to="/deleteborgo" className="btn-primary">
+//               Cancellare un borgo
+//             </Link>
+//           </div>
+//           <button onClick={handleSignOut} className="btn-danger mt-8">
+//             {t("logout")}
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+// export default DashboardAdmin;
+// import React, { useState, useEffect } from "react";
+// import { auth } from "../utils/firebase";
+// import { Link, useNavigate } from "react-router-dom";
+// import { useTranslation } from "react-i18next";
+// import Loader from "../components/Loader";
+// function DashboardAdmin() {
+//   const navigate = useNavigate();
+//   const { t } = useTranslation();
+//   const [loading, useState] = useState(false);
+//   const handleSignOut = () => {
+//     setLoading(true);
+//     setTimeout(async () => {
+//       auth.signOut().then(() => {
+//         navigate("/signout");
+//       });
+//     }, 2000);
+//   };
+//   return (
+//     <div className="min-h-screen bg-gray-100">
+//       {loading && <Loader />}
+//       <div className="container mx-auto py-8 px-4">
+//         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+//           <h1 className="text-3xl font-bold text-gray-800 mb-2">
+//             {t("hello")}{" "}
+//             <span role="img" aria-label="wave">
+//               👋
+//             </span>
+//           </h1>
+//           <p className="text-gray-600 mb-4">{t("what_you_can_do")}</p>
+//         </div>
+//         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+//           <h2 className="text-xl font-semibold text-gray-800 mb-4">
+//             {t("access_borghi")}
+//           </h2>
+//           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+//             <Link
+//               to="/admin/add-borgo"
+//               className="block p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition duration-200"
+//             >
+//               <div className="flex items-center">
+//                 <div className="mr-4 bg-blue-500 text-white p-3 rounded-full">
+//                   <svg
+//                     xmlns="http://www.w3.org/2000/svg"
+//                     className="h-6 w-6"
+//                     fill="none"
+//                     viewBox="0 0 24 24"
+//                     stroke="currentColor"
+//                   >
+//                     <path
+//                       strokeLinecap="round"
+//                       strokeLinejoin="round"
+//                       strokeWidth={2}
+//                       d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+//                     />
+//                   </svg>
+//                 </div>
+//                 <div>
+//                   <h3 className="font-medium text-blue-800">
+//                     Aggiungere un borgo
+//                   </h3>
+//                   <p className="text-sm text-blue-600">
+//                     Inserisci nuovi borghi nel database
+//                   </p>
+//                 </div>
+//               </div>
+//             </Link>
+//             <Link
+//               to="/admin/edit-borgo"
+//               className="block p-4 bg-amber-50 hover:bg-amber-100 rounded-lg transition duration-200"
+//             >
+//               <div className="flex items-center">
+//                 <div className="mr-4 bg-amber-500 text-white p-3 rounded-full">
+//                   <svg
+//                     xmlns="http://www.w3.org/2000/svg"
+//                     className="h-6 w-6"
+//                     fill="none"
+//                     viewBox="0 0 24 24"
+//                     stroke="currentColor"
+//                   >
+//                     <path
+//                       strokeLinecap="round"
+//                       strokeLinejoin="round"
+//                       strokeWidth={2}
+//                       d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+//                     />
+//                   </svg>
+//                 </div>
+//                 <div>
+//                   <h3 className="font-medium text-amber-800">
+//                     Modifica un borgo
+//                   </h3>
+//                   <p className="text-sm text-amber-600">
+//                     Aggiorna i dati dei borghi esistenti
+//                   </p>
+//                 </div>
+//               </div>
+//             </Link>
+//             <Link
+//               to="/admin/delete-borgo"
+//               className="block p-4 bg-rose-50 hover:bg-rose-100 rounded-lg transition duration-200"
+//             >
+//               <div className="flex items-center">
+//                 <div className="mr-4 bg-rose-500 text-white p-3 rounded-full">
+//                   <svg
+//                     xmlns="http://www.w3.org/2000/svg"
+//                     className="h-6 w-6"
+//                     fill="none"
+//                     viewBox="0 0 24 24"
+//                     stroke="currentColor"
+//                   >
+//                     <path
+//                       strokeLinecap="round"
+//                       strokeLinejoin="round"
+//                       strokeWidth={2}
+//                       d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+//                     />
+//                   </svg>
+//                 </div>
+//                 <div>
+//                   <h3 className="font-medium text-rose-800">
+//                     Cancellare un borgo
+//                   </h3>
+//                   <p className="text-sm text-rose-600">
+//                     Rimuovi borghi dal database
+//                   </p>
+//                 </div>
+//               </div>
+//             </Link>
+//           </div>
+//         </div>
+//         <button
+//           onClick={handleSignOut}
+//           className="w-full md:w-auto bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition duration-200 flex items-center justify-center"
+//         >
+//           <svg
+//             xmlns="http://www.w3.org/2000/svg"
+//             className="h-5 w-5 mr-2"
+//             fill="none"
+//             viewBox="0 0 24 24"
+//             stroke="currentColor"
+//           >
+//             <path
+//               strokeLinecap="round"
+//               strokeLinejoin="round"
+//               strokeWidth={2}
+//               d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+//             />
+//           </svg>
+//           {t("logout")}
+//         </button>
+//       </div>
+//     </div>
+//   );
+// }
+// export default DashboardAdmin;
+// import { useManageUsers } from "../hooks/users/useManageUsers";
 function DashboardAdmin() {
   var navigate = (0, _reactRouterDom.useNavigate)();
   var _useTranslation = (0, _reactI18next.useTranslation)(),
     t = _useTranslation.t;
-  var handleSignOut = function handleSignOut() {
-    setTimeout(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-      return _regeneratorRuntime().wrap(function _callee$(_context) {
-        while (1) switch (_context.prev = _context.next) {
-          case 0:
-            _firebase.auth.signOut().then(function () {
-              navigate("/signout");
-            });
-          case 1:
-          case "end":
-            return _context.stop();
-        }
-      }, _callee);
-    })), 2000);
-  };
+  var _useState = (0, _react.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    loading = _useState2[0],
+    setLoading = _useState2[1];
+  var _useAuthContext = (0, _useAuthContext2.useAuthContext)(),
+    user = _useAuthContext.user;
+  var _useManageAuth = (0, _useManageAuth2.useManageAuth)(),
+    logout = _useManageAuth.logout;
+  var _useManageAdmin = (0, _useManageAdmins.useManageAdmin)(),
+    deleteAdmin = _useManageAdmin.deleteAdmin;
+  // const { deleteAdmin } = useManageAdmin();
+  var _useManageAdmin2 = (0, _useManageAdmins.useManageAdmin)(),
+    updateAdmin = _useManageAdmin2.updateAdmin;
+  var name = (user === null || user === void 0 ? void 0 : user.firstName) || (user === null || user === void 0 ? void 0 : user.displayName) || "Admin";
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: "min-h-screen flex justify-center bg-gradient-to-t relative"
-  }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "absolute inset-0 bg-cover bg-center opacity-30",
+    className: "min-h-screen bg-cover bg-center flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8",
     style: {
-      backgroundImage: "url(https://images.unsplash.com/photo-1515859005217-8a1f08870f59?q=80&w=2010&auto=format&fit=crop)"
+      backgroundImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1)), url(https://images.unsplash.com/photo-1517792844039-e52afb564132?q=80&w=3082&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+      backgroundSize: "cover",
+      backgroundPosition: "center"
     }
-  }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "flex flex-1 max-w-4xl mx-auto z-10 bg-white shadow-lg rounded-lg p-10 my-20 text-center"
+  }, loading && /*#__PURE__*/_react["default"].createElement(_Loader["default"], null), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "max-w-lg w-full backdrop-blur-sm bg-white/70 shadow-2xl rounded-3xl overflow-hidden border border-white/50"
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "w-full"
+    className: "px-8 py-10"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "text-center"
   }, /*#__PURE__*/_react["default"].createElement("h1", {
-    className: "text-3xl font-extrabold mb-5"
-  }, t("hello"), " ", /*#__PURE__*/_react["default"].createElement("span", {
+    className: "text-4xl font-Bold text-gray-800 mb-3"
+  }, t("hello"), ", ", /*#__PURE__*/_react["default"].createElement("span", {
+    className: "font-medium"
+  }, name), /*#__PURE__*/_react["default"].createElement("span", {
     role: "img",
-    "aria-label": "hi"
+    "aria-label": "hi",
+    className: "ml-2 animate-pulse"
   }, "\uD83D\uDC4B")), /*#__PURE__*/_react["default"].createElement("p", {
-    className: "text-lg mb-8"
-  }, t("what_you_can_do")), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "grid gap-4 md:grid-cols-2"
-  }, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
-    to: "/borghi",
-    className: "btn-primary"
-  }, t("access_borghi")), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
-    to: "/addborgo",
-    className: "btn-primary"
-  }, "Aggiungere un borgo"), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
-    to: "/borghitoupdate",
-    className: "btn-primary"
-  }, "Modifica un borgo"), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
-    to: "/deleteborgo",
-    className: "btn-primary"
-  }, "Cancellare un borgo")), /*#__PURE__*/_react["default"].createElement("button", {
-    onClick: handleSignOut,
-    className: "btn-danger mt-8"
-  }, t("logout")))));
+    className: "text-gray-600 mb-10 italic font-normal"
+  }, t("what_you_can_do"))), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "space-y-5"
+  }, adminMenuItems.map(function (item, index) {
+    return /*#__PURE__*/_react["default"].createElement(ActionButton, {
+      key: index,
+      href: item.href,
+      onClick: item.onClick === "logout" ? logout : item.onClick === "deleteAdmin" ? deleteAdmin : undefined,
+      label: t(item.label),
+      icon: item.icon,
+      variant: item.variant || "default"
+    });
+  })))));
+}
+
+// Array di configurazione per i pulsanti del menu admin
+var adminMenuItems = [{
+  label: "access_borghi",
+  href: "/borghi",
+  icon: "🏛️"
+}, {
+  label: "add_borgo",
+  href: "/addborgo",
+  icon: "➕"
+}, {
+  label: "update_borgo",
+  href: "/updateborgo",
+  icon: "✏️"
+}, {
+  label: "delete_borgo",
+  href: "/deleteborgo",
+  icon: "🗑️"
+}, {
+  label: "update_profile",
+  href: "/admin/update",
+  icon: "✏️"
+}, {
+  label: "delete_profile",
+  onClick: "deleteAdmin",
+  icon: "🗑️"
+}, {
+  label: "logout",
+  onClick: "logout",
+  variant: "outline",
+  icon: "🚪"
+}];
+
+// Componente riutilizzabile per i pulsanti
+function ActionButton(_ref) {
+  var href = _ref.href,
+    onClick = _ref.onClick,
+    label = _ref.label,
+    icon = _ref.icon,
+    _ref$variant = _ref.variant,
+    variant = _ref$variant === void 0 ? "default" : _ref$variant;
+  var baseClasses = "group w-full py-4 px-6 rounded-full flex items-center justify-between text-base font-light transition-all duration-500 ease-in-out focus:outline-none transform hover:scale-102 focus:scale-102";
+  var variantClasses = variant === "outline" ? "bg-white/70 text-red-800 border border-red-800/30 hover:bg-red-800/10 hover:border-red-800/70" : "bg-gradient-to-r from-red-700 to-red-900 text-white shadow-md hover:shadow-lg hover:from-red-800 hover:to-red-950";
+  var classes = "".concat(baseClasses, " ").concat(variantClasses);
+  var content = /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("span", {
+    className: "flex-grow text-left pl-2"
+  }, label), /*#__PURE__*/_react["default"].createElement("span", {
+    className: "ml-2 opacity-70 group-hover:opacity-100 transition-opacity duration-300"
+  }, icon));
+  if (href) {
+    return /*#__PURE__*/_react["default"].createElement("a", {
+      href: href,
+      className: "block"
+    }, /*#__PURE__*/_react["default"].createElement("button", {
+      className: classes
+    }, content));
+  }
+  return /*#__PURE__*/_react["default"].createElement("button", {
+    onClick: onClick,
+    className: classes
+  }, content);
 }
 var _default = exports["default"] = DashboardAdmin;

@@ -9,6 +9,7 @@ var _react = _interopRequireWildcard(require("react"));
 var _reactRouterDom = require("react-router-dom");
 var _Loader = _interopRequireDefault(require("../../components/Loader"));
 var _solid = require("@heroicons/react/20/solid");
+var _useAuthContext2 = require("../../hooks/auth/useAuthContext");
 var _reactI18next = require("react-i18next");
 var _framerMotion = require("framer-motion");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
@@ -26,13 +27,14 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; } // import { useAuth } from "../context/AuthContext";
-// Importa useTranslation
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; } // Importa useTranslation
 function BorghiToUpdate() {
   var _useTranslation = (0, _reactI18next.useTranslation)(),
     t = _useTranslation.t; // Inizializza useTranslation
   // const { user } = useAuth(); // Uso il contesto di autenticazione
   // const { user } = useContext(AuthContext); // Uso il contesto di autenticazione
+  var _useAuthContext = (0, _useAuthContext2.useAuthContext)(),
+    user = _useAuthContext.user;
   var navigate = (0, _reactRouterDom.useNavigate)();
   var _useState = (0, _react.useState)([]),
     _useState2 = _slicedToArray(_useState, 2),
@@ -119,7 +121,7 @@ function BorghiToUpdate() {
     if (!user) {
       navigate("/login");
     } else {
-      navigate("/borgo/${borgo.id}");
+      navigate("/updateborgo/".concat(borgo._id));
     }
   };
   if (isLoading) {
@@ -142,10 +144,9 @@ function BorghiToUpdate() {
     }
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "flex-wrap m-4 text-center justify-center"
-  }, /*#__PURE__*/_react["default"].createElement("p", null, t("select_borghi")), " "), /*#__PURE__*/_react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("p", null, t("select_borghi"))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "flex flex-wrap justify-center grid-flow-row-dense grid-cols-2 grid-rows-3"
   }, borghi.map(function (borgo) {
-    // const isFavorite = favorites.includes(borgo._id);
     return /*#__PURE__*/_react["default"].createElement("div", {
       className: "max-w-80 rounded-lg overflow-hidden shadow-xl m-5 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:duration-300",
       key: borgo._id ? borgo._id : ""

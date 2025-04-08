@@ -546,7 +546,7 @@ var Login = function Login(_ref) {
     }
   };
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-gray-100 py-12 px-4 sm:px-6 lg:px-8"
+    className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-gray-100 py-4 sm:px-6 lg:px-8"
   }, /*#__PURE__*/_react["default"].createElement(_framerMotion.motion.div, {
     initial: {
       opacity: 0,
@@ -565,7 +565,7 @@ var Login = function Login(_ref) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "flex flex-col items-center"
   }, /*#__PURE__*/_react["default"].createElement("h1", {
-    className: "text-3xl font-light text-gray-800 mb-1"
+    className: "text-3xl font-light text-gray-800 mb-4"
   }, /*#__PURE__*/_react["default"].createElement("span", {
     className: "text-red-800 font-medium"
   }, t("welcome_back"))), isLoading ? /*#__PURE__*/_react["default"].createElement("div", {
@@ -624,6 +624,11 @@ var Login = function Login(_ref) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "border-t border-gray-100 pt-6 flex flex-col space-y-4"
   }, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
+    to: "/loginadmin",
+    className: "text-sm text-gray-600 hover:text-red-800 transition-colors"
+  }, t("admin_account"), " ", /*#__PURE__*/_react["default"].createElement("span", {
+    className: "font-medium text-red-800"
+  }, t("click_here"))), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
     to: "/registration",
     className: "text-sm text-gray-600 hover:text-red-800 transition-colors"
   }, t("no_account"), " ", /*#__PURE__*/_react["default"].createElement("span", {

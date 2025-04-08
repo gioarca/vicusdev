@@ -23,19 +23,152 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; } // import React, { useState } from "react";
+// import { useTranslation } from "react-i18next";
+// import { Link, useNavigate } from "react-router-dom";
+// function AddBorgo() {
+//   const { t } = useTranslation();
+//   const navigate = useNavigate();
+//   const [borgoData, setBorgoData] = useState({
+//     name: "",
+//     place: "",
+//     imgURL: "",
+//   });
+//   const handleChange = (e) => {
+//     const { name, value, type, checked } = e.target;
+//     setBorgoData({
+//       ...borgoData,
+//       [name]: type === "checkbox" ? checked : value,
+//     });
+//   };
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const response = await fetch(
+//         "https://borghi-backend.onrender.com/api/v1/borghi",
+//         {
+//           // const response = await fetch("http://localhost:3000/api/v1/borghi/", {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify(borgoData),
+//         }
+//       );
+//       if (response.ok) {
+//         alert("Borgo aggiunto con successo!");
+//         setBorgoData({
+//           name: "",
+//           place: "",
+//           imgURL: "",
+//           // reset campi...
+//         });
+//         navigate("/thanks");
+//         // } else {
+//         //   alert("Errore nell'aggiungere il borgo.");
+//       }
+//     } catch (error) {
+//       console.error("Errore:", error);
+//       alert("Errore di connessione al server.");
+//     }
+//   };
+//   return (
+//     <div className="flex flex-col text-center">
+//       <h1 className="text-center font-bold text-2xl m-14">
+//         {t("thank_you_for_support")}
+//       </h1>
+//       <div className="flex text-center items-center justify-center mt-5 mb-5 sm:mt-20">
+//         <img
+//           src="https://images.unsplash.com/photo-1518335935020-cfd6580c1ab4?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+//           alt="Borgo"
+//         />
+//       </div>
+//       <div className="m-5">
+//         <p className="font-bold">{t("improve_southern_italy")}</p>
+//         <p className="text-l text-center m-10">
+//           {t("borgo_criteria")}
+//           <ul className="flex flex-col text-left justify-center list-disc sm:my-16 sm:mx-48">
+//             <li>{t("public_services")}</li>
+//             <li>{t("borgo_beauty")}</li>
+//             <li>{t("accessibility")}</li>
+//             <li>{t("internet_speed")}</li>
+//             <li>{t("coworking_space")}</li>
+//           </ul>
+//         </p>
+//         <div className="flex flex-col m-5 text-center">
+//           <p>{t("add_borgo")}</p>
+//           <div>
+//             <form
+//               onSubmit={handleSubmit}
+//               className="flex flex-col justify-center items-center text-center gap-3 mb-10 bg-grey-200 p-5 rounded-lg m-auto"
+//             >
+//               <label className="md:w-96 m-2 px-8 py-4 rounded-lg text-sm font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white">
+//                 Nome del borgo
+//                 <input
+//                   className="px-12 m-2"
+//                   type="text"
+//                   name="name"
+//                   placeholder="Inserisci il nome intero"
+//                   value={borgoData.name}
+//                   onChange={handleChange}
+//                   required
+//                 />
+//               </label>
+//               <label className="md:w-96 m-2 px-8 py-4 rounded-lg text-sm font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white">
+//                 Posizione su Google Maps
+//                 <input
+//                   className="px-12 m-2"
+//                   type="text"
+//                   name="place"
+//                   placeholder="Link di maps"
+//                   value={borgoData.location}
+//                   onChange={handleChange}
+//                   required
+//                 />
+//               </label>
+//               <label className="md:w-96 m-2 px-8 py-4 rounded-lg text-sm font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white">
+//                 Foto
+//                 <input
+//                   className="px-12 m-2"
+//                   type="text"
+//                   name="imgURL"
+//                   placeholder="Linka una foto stupenda del borgo"
+//                   value={borgoData.photo}
+//                   onChange={handleChange}
+//                   required
+//                 />
+//               </label>
+//               <button
+//                 type="submit"
+//                 className="disabled:opacity-75 m-5 px-8 py-2 text-center items-center justify-center font-semibold bg-red-800 text-white rounded-full hover:bg-white hover:text-black hover:border hover:border-red-800 transition-all duration-300 ease-in-out focus:shadow-outline focus:outline-none"
+//               >
+//                 Aggiungi Borgo
+//               </button>
+//             </form>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+// export default AddBorgo;
+// ---------------------------------------------------------
 function AddBorgo() {
   var _useTranslation = (0, _reactI18next.useTranslation)(),
     t = _useTranslation.t;
   var navigate = (0, _reactRouterDom.useNavigate)();
-  var _useState = (0, _react.useState)({
+  var _useState = (0, _react.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    loading = _useState2[0],
+    setLoading = _useState2[1];
+  var _useState3 = (0, _react.useState)({
       name: "",
       place: "",
       imgURL: ""
     }),
-    _useState2 = _slicedToArray(_useState, 2),
-    borgoData = _useState2[0],
-    setBorgoData = _useState2[1];
+    _useState4 = _slicedToArray(_useState3, 2),
+    borgoData = _useState4[0],
+    setBorgoData = _useState4[1];
   var handleChange = function handleChange(e) {
     var _e$target = e.target,
       name = _e$target.name,
@@ -51,17 +184,19 @@ function AddBorgo() {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             e.preventDefault();
-            _context.prev = 1;
-            _context.next = 4;
-            return fetch("https://borghi-backend.onrender.com/api/v1/borghi", {
-              // const response = await fetch("http://localhost:3000/api/v1/borghi/", {
+            setLoading(true);
+            _context.prev = 2;
+            _context.next = 5;
+            return fetch(
+            // "https://borghi-backend.onrender.com/borghi",
+            "http://localhost:3000/borghi", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json"
               },
               body: JSON.stringify(borgoData)
             });
-          case 4:
+          case 5:
             response = _context.sent;
             if (response.ok) {
               alert("Borgo aggiunto con successo!");
@@ -69,84 +204,146 @@ function AddBorgo() {
                 name: "",
                 place: "",
                 imgURL: ""
-                // reset campi...
               });
               navigate("/thanks");
-              // } else {
-              //   alert("Errore nell'aggiungere il borgo.");
             }
-            _context.next = 12;
+            _context.next = 13;
             break;
-          case 8:
-            _context.prev = 8;
-            _context.t0 = _context["catch"](1);
+          case 9:
+            _context.prev = 9;
+            _context.t0 = _context["catch"](2);
             console.error("Errore:", _context.t0);
             alert("Errore di connessione al server.");
-          case 12:
+          case 13:
+            _context.prev = 13;
+            setLoading(false);
+            return _context.finish(13);
+          case 16:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[1, 8]]);
+      }, _callee, null, [[2, 9, 13, 16]]);
     }));
     return function handleSubmit(_x) {
       return _ref.apply(this, arguments);
     };
   }();
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: "flex flex-col text-center"
+    className: "min-h-screen bg-cover bg-center py-10 px-4 sm:px-6 lg:px-8",
+    style: {
+      backgroundImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8)), url(https://images.unsplash.com/photo-1518335935020-cfd6580c1ab4?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+      backgroundSize: "cover",
+      backgroundPosition: "center"
+    }
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "max-w-3xl mx-auto"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "backdrop-blur-sm bg-white/80 shadow-2xl rounded-3xl overflow-hidden border border-white/50 px-6 py-8"
   }, /*#__PURE__*/_react["default"].createElement("h1", {
-    className: "text-center font-bold text-2xl m-14"
+    className: "text-3xl font-bold text-gray-800 mb-6 text-center"
   }, t("thank_you_for_support")), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "flex text-center items-center justify-center mt-5 mb-5 sm:mt-20"
+    className: "mb-8 overflow-hidden rounded-2xl shadow-lg"
   }, /*#__PURE__*/_react["default"].createElement("img", {
     src: "https://images.unsplash.com/photo-1518335935020-cfd6580c1ab4?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    alt: "Borgo"
+    alt: "Borgo",
+    className: "w-full h-64 object-cover transform hover:scale-105 transition-transform duration-700"
   })), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "m-5"
-  }, /*#__PURE__*/_react["default"].createElement("p", {
-    className: "font-bold"
+    className: "text-center mb-8"
+  }, /*#__PURE__*/_react["default"].createElement("h2", {
+    className: "text-xl font-semibold text-gray-800 mb-4"
   }, t("improve_southern_italy")), /*#__PURE__*/_react["default"].createElement("p", {
-    className: "text-l text-center m-10"
-  }, t("borgo_criteria"), /*#__PURE__*/_react["default"].createElement("ul", {
-    className: "flex flex-col text-left justify-center list-disc sm:my-16 sm:mx-48"
-  }, /*#__PURE__*/_react["default"].createElement("li", null, t("public_services")), /*#__PURE__*/_react["default"].createElement("li", null, t("borgo_beauty")), /*#__PURE__*/_react["default"].createElement("li", null, t("accessibility")), /*#__PURE__*/_react["default"].createElement("li", null, t("internet_speed")), /*#__PURE__*/_react["default"].createElement("li", null, t("coworking_space")))), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "flex flex-col m-5 text-center"
-  }, /*#__PURE__*/_react["default"].createElement("p", null, t("add_borgo")), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("form", {
+    className: "text-gray-600 mb-6"
+  }, t("borgo_criteria")), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "bg-red-50 rounded-2xl p-6 mb-8 border border-red-100"
+  }, /*#__PURE__*/_react["default"].createElement("ul", {
+    className: "space-y-2 text-left"
+  }, ["public_services", "borgo_beauty", "accessibility", "internet_speed", "coworking_space"].map(function (item, index) {
+    return /*#__PURE__*/_react["default"].createElement("li", {
+      key: index,
+      className: "flex items-center text-gray-700"
+    }, /*#__PURE__*/_react["default"].createElement("span", {
+      className: "mr-2 text-red-800"
+    }, "\u2713"), t(item));
+  })))), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "text-center mb-6"
+  }, /*#__PURE__*/_react["default"].createElement("h2", {
+    className: "text-xl font-semibold text-gray-800 mb-4"
+  }, t("add_borgo")), /*#__PURE__*/_react["default"].createElement("form", {
     onSubmit: handleSubmit,
-    className: "flex flex-col justify-center items-center text-center gap-3 mb-10 bg-grey-200 p-5 rounded-lg m-auto"
+    className: "space-y-4"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "group"
   }, /*#__PURE__*/_react["default"].createElement("label", {
-    className: "md:w-96 m-2 px-8 py-4 rounded-lg text-sm font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white"
-  }, "Nome del borgo", /*#__PURE__*/_react["default"].createElement("input", {
-    className: "px-12 m-2",
+    className: "block text-sm font-medium text-gray-700 mb-1"
+  }, "Nome del borgo"), /*#__PURE__*/_react["default"].createElement("input", {
     type: "text",
     name: "name",
     placeholder: "Inserisci il nome intero",
     value: borgoData.name,
     onChange: handleChange,
-    required: true
-  })), /*#__PURE__*/_react["default"].createElement("label", {
-    className: "md:w-96 m-2 px-8 py-4 rounded-lg text-sm font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white"
-  }, "Posizione su Google Maps", /*#__PURE__*/_react["default"].createElement("input", {
-    className: "px-12 m-2",
+    required: true,
+    className: "w-full px-4 py-3 rounded-full text-gray-800 border border-gray-300  focus:ring-2 focus:ring-red-800/30 focus:border-red-800  transition-all duration-300 bg-white/80 backdrop-blur-sm"
+  })), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "group"
+  }, /*#__PURE__*/_react["default"].createElement("label", {
+    className: "block text-sm font-medium text-gray-700 mb-1"
+  }, "Posizione su Google Maps"), /*#__PURE__*/_react["default"].createElement("input", {
     type: "text",
     name: "place",
     placeholder: "Link di maps",
-    value: borgoData.location,
+    value: borgoData.place,
     onChange: handleChange,
-    required: true
-  })), /*#__PURE__*/_react["default"].createElement("label", {
-    className: "md:w-96 m-2 px-8 py-4 rounded-lg text-sm font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white"
-  }, "Foto", /*#__PURE__*/_react["default"].createElement("input", {
-    className: "px-12 m-2",
+    required: true,
+    className: "w-full px-4 py-3 rounded-full text-gray-800 border border-gray-300  focus:ring-2 focus:ring-red-800/30 focus:border-red-800  transition-all duration-300 bg-white/80 backdrop-blur-sm"
+  })), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "group"
+  }, /*#__PURE__*/_react["default"].createElement("label", {
+    className: "block text-sm font-medium text-gray-700 mb-1"
+  }, "Foto"), /*#__PURE__*/_react["default"].createElement("input", {
     type: "text",
     name: "imgURL",
     placeholder: "Linka una foto stupenda del borgo",
-    value: borgoData.photo,
+    value: borgoData.imgURL,
     onChange: handleChange,
-    required: true
-  })), /*#__PURE__*/_react["default"].createElement("button", {
+    required: true,
+    className: "w-full px-4 py-3 rounded-full text-gray-800 border border-gray-300  focus:ring-2 focus:ring-red-800/30 focus:border-red-800  transition-all duration-300 bg-white/80 backdrop-blur-sm"
+  })), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "pt-4"
+  }, /*#__PURE__*/_react["default"].createElement("button", {
     type: "submit",
-    className: "disabled:opacity-75 m-5 px-8 py-2 text-center items-center justify-center font-semibold bg-red-800 text-white rounded-full hover:bg-white hover:text-black hover:border hover:border-red-800 transition-all duration-300 ease-in-out focus:shadow-outline focus:outline-none"
-  }, "Aggiungi Borgo"))))));
+    disabled: loading,
+    className: "w-full md:w-auto px-8 py-3 font-semibold bg-gradient-to-r from-red-700 to-red-900  text-white rounded-full shadow-md hover:shadow-lg transform hover:scale-102  hover:from-red-800 hover:to-red-950 transition-all duration-300  focus:outline-none disabled:opacity-70 flex items-center justify-center"
+  }, loading ? /*#__PURE__*/_react["default"].createElement("span", {
+    className: "flex items-center"
+  }, /*#__PURE__*/_react["default"].createElement("svg", {
+    className: "animate-spin -ml-1 mr-2 h-4 w-4 text-white",
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24"
+  }, /*#__PURE__*/_react["default"].createElement("circle", {
+    className: "opacity-25",
+    cx: "12",
+    cy: "12",
+    r: "10",
+    stroke: "currentColor",
+    strokeWidth: "4"
+  }), /*#__PURE__*/_react["default"].createElement("path", {
+    className: "opacity-75",
+    fill: "currentColor",
+    d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+  })), "Elaborazione...") : /*#__PURE__*/_react["default"].createElement("span", {
+    className: "flex items-center"
+  }, /*#__PURE__*/_react["default"].createElement("span", {
+    className: "mr-1"
+  }, "Aggiungi Borgo"), /*#__PURE__*/_react["default"].createElement("span", {
+    className: "ml-1"
+  }, "\u2795"))))), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "mt-6"
+  }, /*#__PURE__*/_react["default"].createElement("button", {
+    onClick: function onClick() {
+      return navigate(-1);
+    },
+    className: "text-red-800 hover:text-red-900 font-medium transition-colors duration-300"
+  }, "\u2190 Torna indietro"))))));
 }
 var _default = exports["default"] = AddBorgo;

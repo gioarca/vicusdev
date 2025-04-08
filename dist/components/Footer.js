@@ -50,7 +50,7 @@ function Footer() {
     className: "block m-1 sm:inline-block sm:mt-0 hover:text-red-600"
   }, t("needHelp"))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "mx-12"
-  }, /*#__PURE__*/_react["default"].createElement("p", null, "Copyright \xA9 2024", " ", /*#__PURE__*/_react["default"].createElement("a", {
+  }, /*#__PURE__*/_react["default"].createElement("p", null, "Copyright \xA9 2025", " ", /*#__PURE__*/_react["default"].createElement("a", {
     href: "https://gioarca.netlify.app/",
     target: "_blank",
     className: "text-red-500"

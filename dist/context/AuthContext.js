@@ -33,6 +33,7 @@ var AuthContextProvider = exports.AuthContextProvider = function AuthContextProv
   // Inizializza lo stato solo quando il componente viene montato
   var _useReducer = (0, _react.useReducer)(authReducer, {
       user: null,
+      admin: null,
       token: null
     }),
     _useReducer2 = _slicedToArray(_useReducer, 2),
@@ -48,6 +49,7 @@ var AuthContextProvider = exports.AuthContextProvider = function AuthContextProv
     try {
       var tokenFromStorage = localStorage.getItem("token");
       var userFromStorage = localStorage.getItem("user");
+      var adminFromStorage = localStorage.getItem("admin");
       var storedToken = tokenFromStorage ? JSON.parse(tokenFromStorage) : null;
       var storedUser = userFromStorage ? JSON.parse(userFromStorage) : null;
       if (storedToken && storedUser) {
@@ -80,6 +82,7 @@ var AuthContextProvider = exports.AuthContextProvider = function AuthContextProv
   (0, _react.useEffect)(function () {
     if (!loading) {
       localStorage.setItem("user", JSON.stringify(state.user));
+      localStorage.setItem("admin", JSON.stringify(state.admin));
       localStorage.setItem("token", JSON.stringify(state.token));
     }
   }, [state, loading]);
@@ -87,6 +90,7 @@ var AuthContextProvider = exports.AuthContextProvider = function AuthContextProv
     value: {
       user: state.user,
       token: state.token,
+      admin: state.admin,
       dispatch: dispatch,
       loading: loading
     }

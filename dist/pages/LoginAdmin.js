@@ -135,10 +135,10 @@ var LoginAdmin = function LoginAdmin(_ref) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "flex flex-col items-center"
   }, /*#__PURE__*/_react["default"].createElement("h1", {
-    className: "text-3xl font-light text-gray-800 mb-1"
+    className: "text-3xl font-light text-gray-800 mb-4"
   }, /*#__PURE__*/_react["default"].createElement("span", {
     className: "text-red-800 font-medium"
-  }, "Admin")), isLoading ? /*#__PURE__*/_react["default"].createElement("div", {
+  }, t("welcome_back"), " Admin")), isLoading ? /*#__PURE__*/_react["default"].createElement("div", {
     className: "flex items-center justify-center py-10"
   }, /*#__PURE__*/_react["default"].createElement(_Loader["default"], null)) : /*#__PURE__*/_react["default"].createElement(_framerMotion.motion.form, {
     onSubmit: handleSubmit,
@@ -201,7 +201,7 @@ var LoginAdmin = function LoginAdmin(_ref) {
   }, t("click_here"))), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
     to: "/registrationadmin",
     className: "text-sm text-gray-600 hover:text-red-800 transition-colors"
-  }, t("admin_or_structure"), " ", /*#__PURE__*/_react["default"].createElement("span", {
+  }, t("normal_user"), " ", /*#__PURE__*/_react["default"].createElement("span", {
     className: "font-medium text-red-800"
   }, t("click_here")))))))));
 };
