@@ -23,6 +23,7 @@
     "framer-motion": "^11.17.0",
     "hamburger-react": "^2.5.2",
     "heroicons": "^2.2.0",
+    "html-parse-stringify": "^3.0.1",
     "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-calendar": "^5.1.0",
@@ -39,7 +40,8 @@
     "tailwind": "^2.3.1",
     "uuid": "^11.0.5",
     "vies": "^0.0.5",
-    "viesapi-client": "^1.2.8"
+    "viesapi-client": "^1.2.8",
+    "void-elements": "^3.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.27.0",
