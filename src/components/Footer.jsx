@@ -5,75 +5,89 @@ function Footer() {
   const { t } = useTranslation();
 
   return (
-    <div className="text-center m-8">
-      <footer>
-        <div className="flex flex-col justify-center items-center">
-          <p className="font-bold">{t("followUs")}</p>
-          <div className="flex justify-center items-center m-10 space-x-10 sm:space-x-26">
+    <footer className="mt-auto bg-white border-t border-gray-200 py-8 px-4">
+      <div className="max-w-6xl mx-auto flex flex-col items-center space-y-6">
+        {/* Logo Vicus */}
+        <a href="/" className="flex items-center space-x-2">
+          <img
+            src="/favicon-96x96.png" // Sostituisci con il path corretto del tuo logo
+            alt="Vicus Logo"
+            className="h-10 w-auto object-contain"
+          />
+          <span className="text-xl font-semibold text-gray-800">Vicus</span>
+        </a>
+
+        {/* Social */}
+        <div className="text-center">
+          <p className="font-semibold text-lg mb-4">{t("followUs")}</p>
+          <div className="flex justify-center space-x-6">
             <a
-              target="_blank"
               href="https://www.instagram.com/vicus.sud/"
-              className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:duration-300 hover:opacity-50"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-transform duration-300 hover:scale-110 hover:opacity-70"
             >
               <img
                 src="https://static.vecteezy.com/system/resources/previews/014/414/683/non_2x/instagram-black-logo-on-transparent-background-free-vector.jpg"
-                width="50"
-                height="50"
-                className="bg-transparent"
                 alt="Instagram"
+                className="w-10 h-10 rounded-full object-cover"
               />
             </a>
-            &emsp;
+
             <a
-              target="_blank"
               href="https://t.me/+itBwf1Ed0DNjMjdk"
-              className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:duration-300 hover:opacity-50"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-transform duration-300 hover:scale-110 hover:opacity-70"
             >
               <img
                 src="https://frankmerenda.com/wp-content/uploads/2019/11/telegram-icon-512.png"
-                width="50"
-                height="50"
                 alt="Telegram"
+                className="w-10 h-10 rounded-full object-cover"
               />
             </a>
           </div>
         </div>
-        <div className="flex flex-col justify-between m-5 sm:flex-row sm:mx-[100px] lg:mx-[500px]">
+
+        {/* Link */}
+        <div className="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm text-gray-600">
           <a
-            href={"/goals"}
-            className="block m-1 sm:inline-block sm:mt-0 hover:text-red-600"
+            href="/goals"
+            className="hover:text-red-600 transition-colors duration-200"
           >
             {t("goals")}
           </a>
-
           <a
-            href={"/workinprogress"}
-            className="block m-1 sm:inline-block sm:mt-0 hover:text-red-600"
+            href="/workinprogress"
+            className="hover:text-red-600 transition-colors duration-200"
           >
             {t("blog")}
           </a>
           <a
-            href={"/contacts"}
-            className="block m-1 sm:inline-block sm:mt-0 hover:text-red-600"
+            href="/contacts"
+            className="hover:text-red-600 transition-colors duration-200"
           >
             {t("needHelp")}
           </a>
         </div>
-        <div className="mx-12">
+
+        {/* Copyright */}
+        <div className="text-center text-xs text-gray-500">
           <p>
-            Copyright © 2025{" "}
+            © 2025{" "}
             <a
-              href={"https://gioarca.netlify.app/"}
+              href="https://gioarca.netlify.app/"
               target="_blank"
-              className="text-red-500"
+              rel="noopener noreferrer"
+              className="text-red-500 font-medium hover:underline"
             >
-              Borghi.
+              Borghi
             </a>{" "}
-            {t("allRightsReserved")}
+            | {t("allRightsReserved")}
           </p>
         </div>
-      </footer>
-    </div>
+      </div>
+    </footer>
   );
 }
 

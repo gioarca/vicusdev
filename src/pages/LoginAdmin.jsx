@@ -26,8 +26,7 @@ const LoginAdmin = ({ model }) => {
     try {
       const adminData = await loginAdmin({ formData, model });
       if (adminData) {
-        // Redirect immediato alla dashboard personale
-        navigate("/admin/dashboard");
+        navigate("/admin/dashboard"); // ✅ QUESTO FA IL REDIRECT DIRETTO
       }
       console.log("Admin data:", adminData);
     } catch (error) {

@@ -32,6 +32,7 @@ import PrivateRoute from "../components/PrivateRoute";
 import UpdateProfile from "./UpdateProfile.jsx";
 import UpdateAdmin from "./UpdateAdmin.jsx";
 import LoginAdmin from "./LoginAdmin.jsx";
+import ThanksBorgo from "./ThanksBorgo.jsx";
 
 function Pages() {
   const { user } = useAuthContext();
@@ -53,6 +54,7 @@ function Pages() {
             <Route path="/registration" element={<Registration />} />
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/thanks" element={<Thanks />} />
+            <Route path="/borghi/thanks" element={<ThanksBorgo />} />
             <Route path="/thankyouforyoursupport" element={<Support />} />
             <Route path="/workinprogress" element={<Work />} />
             <Route

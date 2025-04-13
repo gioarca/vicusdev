@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import confetti from "canvas-confetti";
 
-function Thanks() {
+function ThanksBorgo() {
   useEffect(() => {
     // Mini esplosione di confetti
     confetti({
@@ -34,21 +34,20 @@ function Thanks() {
 
         {/* Titolo */}
         <h1 className="text-3xl font-extrabold text-gray-800">
-          Grazie per averci contattato!
+          Grazie assai per il tuo contributo!
         </h1>
 
         {/* Messaggio */}
         <div className="text-gray-600">
-          <p>Il tuo messaggio è stato ricevuto correttamente.</p>
-          <p>Ti risponderemo il prima possibile.</p>
+          <p>Il tuo borgo è stato già aggiunto/modificato correttamente.</p>
+          <p>Dacci un'occhiata nella lista completa dei borghi!</p>
         </div>
 
         {/* Link di ritorno */}
-
         <p className="text-sm text-gray-500">
           Torna alla home cliccando{" "}
           <Link to="/" className="text-red-500 font-medium hover:underline">
-            qui
+            qui{" "}
           </Link>{" "}
           o sul{" "}
           <Link to="/" className="text-red-500 font-medium hover:underline">
@@ -78,4 +77,4 @@ function Thanks() {
   );
 }
 
-export default Thanks;
+export default ThanksBorgo;

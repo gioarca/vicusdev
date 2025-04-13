@@ -26,9 +26,7 @@ const Login = ({ model }) => {
     try {
       const userData = await userLogin({ formData, model });
       if (userData) {
-        // Redirect immediato alla dashboard personale
-        // navigate("/user/dashboard");
-        <Navigate to="/user/dashboard" />;
+        navigate("/user/dashboard"); // ✅ QUESTO FA IL REDIRECT DIRETTO
       }
       console.log("User data:", userData);
     } catch (error) {

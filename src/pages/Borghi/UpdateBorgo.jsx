@@ -98,7 +98,7 @@ function UpdateBorgo() {
       });
       if (response.ok) {
         alert("Borgo modificato con successo!");
-        navigate("/thanks");
+        navigate("/borghi/thanks");
       } else {
         alert("Errore nella modifica del borgo.");
       }
