@@ -5,7 +5,7 @@ import { useManageUsers } from "../hooks/users/useManageUsers";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
-const UpdateProfile = ({ model }) => {
+const UpdateProfile = ({ userId }) => {
   const { updateUser, getUserProfile, isLoading } = useManageUsers();
   const { user } = useAuthContext();
   const { t } = useTranslation();
@@ -13,8 +13,7 @@ const UpdateProfile = ({ model }) => {
   const [imageError, setImageError] = useState("");
   const [isFormModified, setIsFormModified] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -22,46 +21,54 @@ const UpdateProfile = ({ model }) => {
     phoneNumber: "",
   });
 
+  const [dataLoaded, setDataLoaded] = useState(false); // Flag per tracciare se i dati sono già stati caricati
+
   // Carica i dati dell'utente quando il componente viene montato
   useEffect(() => {
-    const loadUserData = async () => {
-      if (user) {
-        // Se abbiamo già dati utente, li usiamo per inizializzare il form
-        setFormData({
-          firstName: user.firstName || "",
-          lastName: user.lastName || "",
-          email: user.email || "",
-          password: "",
-          confirmPassword: "",
-          profilePicture: user.profilePicture || "",
-          phoneNumber: user.phoneNumber || "",
-        });
+    // Evita di ricaricare i dati se sono già stati caricati
+    if (dataLoaded) return;
 
-        // Opzionale: Recupera dati freschi dal database
-        try {
-          const freshUserData = await getUserProfile();
-          if (freshUserData) {
-            setFormData((prev) => ({
-              ...prev,
-              firstName: freshUserData.firstName || "",
-              lastName: freshUserData.lastName || "",
-              email: freshUserData.email || "",
-              profilePicture: freshUserData.profilePicture || "",
-              phoneNumber: freshUserData.phoneNumber || "",
-              password: "",
-              confirmPassword: "",
-            }));
-          }
-        } catch (error) {
-          console.error("Errore nel caricamento dei dati utente:", error);
+    const loadUserData = async () => {
+      if (!user) return;
+      // Se abbiamo già dati utente, li usiamo per inizializzare il form
+      setFormData({
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        email: user.email || "",
+        password: "",
+        confirmPassword: "",
+        profilePicture: user.profilePicture || "",
+        phoneNumber: user.phoneNumber || "",
+      });
+
+      // Opzionale: Recupera dati freschi dal database
+      try {
+        // Usa l'ID passato come prop oppure l'ID dell'utente corrente
+        const id = userId || user._id;
+        const freshUserData = await getUserProfile(id);
+        if (freshUserData) {
+          setFormData((prev) => ({
+            ...prev,
+            name: freshUserData.name || "",
+            email: freshUserData.email || "",
+            profilePicture: freshUserData.profilePicture || "",
+            phoneNumber: freshUserData.phoneNumber || "",
+            password: "",
+            confirmPassword: "",
+          }));
+          // Segnala che i dati sono stati caricati
+          setDataLoaded(true);
         }
+      } catch (error) {
+        console.error("Errore nel caricamento dei dati utente:", error);
       }
     };
 
     loadUserData();
-  }, [user, getUserProfile]);
+  }, [user, userId]); // Rimuovi getAdminById dalle dipendenze e aggiungi adminId
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,

@@ -47,7 +47,7 @@ const UpdateAdmin = ({ adminId }) => {
       // Recupero dati aggiornati dal database
       try {
         // Usa l'ID passato come prop oppure l'ID dell'utente corrente
-        const id = adminId || user.id;
+        const id = adminId || user._id;
         const freshUserData = await getAdminById(id);
 
         if (freshUserData) {
