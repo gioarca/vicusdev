@@ -3,7 +3,6 @@ import { useAuthContext } from "../hooks/auth/useAuthContext";
 import Loader from "../components/Loader";
 import { useManageAdmin } from "../hooks/admins/useManageAdmins";
 import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
 
 const UpdateAdmin = ({ adminId }) => {
   // Accetta l'ID come prop
@@ -16,8 +15,10 @@ const UpdateAdmin = ({ adminId }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    taxId: "",
     email: "",
     specialization: "",
+    city: "",
     password: "",
     confirmPassword: "",
     profilePicture: "",
@@ -67,7 +68,7 @@ const UpdateAdmin = ({ adminId }) => {
         }
       } catch (error) {
         console.error("Errore nel caricamento dei dati utente:", error);
-        toast.error("Impossibile caricare i dati del profilo");
+        window.alert("Impossibile caricare i dati del profilo");
       }
     };
 
@@ -113,7 +114,7 @@ const UpdateAdmin = ({ adminId }) => {
 
     // Validazione password
     if (formData.password && formData.password !== formData.confirmPassword) {
-      toast.error("Le password non corrispondono.");
+      window.alert("Le password non corrispondono.");
       return;
     }
 
@@ -121,7 +122,7 @@ const UpdateAdmin = ({ adminId }) => {
       const result = await updateAdmin({ formData });
 
       if (result) {
-        toast.success("Profilo aggiornato con successo");
+        window.alert("Profilo aggiornato con successo");
         // Reset solo campi password dopo un aggiornamento riuscito
         setFormData((prev) => ({
           ...prev,
@@ -132,7 +133,7 @@ const UpdateAdmin = ({ adminId }) => {
       }
     } catch (error) {
       console.error("Errore nell'aggiornamento del profilo:", error);
-      toast.error("Errore durante l'aggiornamento del profilo");
+      window.alert("Errore durante l'aggiornamento del profilo");
     }
   };
 
@@ -141,10 +142,10 @@ const UpdateAdmin = ({ adminId }) => {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center bg-white p-8 rounded-lg shadow-md">
           <h3 className="text-2xl font-bold mb-4 text-gray-800">
-            Sessione non valida
+            Per sicurezza sei stato disconnesso
           </h3>
           <p className="text-gray-600 mb-4">
-            Effettua il login per accedere a questa pagina.
+            Effettua di nuovo il login per accedere a questa pagina
           </p>
           <a
             href="/login"
@@ -305,7 +306,7 @@ const UpdateAdmin = ({ adminId }) => {
                     : "bg-red-800 hover:bg-red-700 shadow-md hover:shadow-lg"
                 }`}
               >
-                {isLoading ? (
+                {/* {isLoading ? (
                   <span className="flex items-center">
                     <svg
                       className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
@@ -331,7 +332,7 @@ const UpdateAdmin = ({ adminId }) => {
                   </span>
                 ) : (
                   "AGGIORNA"
-                )}
+                )} */}
               </button>
             </div>
           </form>

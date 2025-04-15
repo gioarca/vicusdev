@@ -1,179 +1,12 @@
-// import React, { useEffect, useState } from "react";
-// import { Link, useNavigate } from "react-router-dom";
-// import Loader from "../components/Loader";
-// // import { HeartIcon } from "@heroicons/react/outline";
-// import { XIcon } from "@heroicons/react/outline";
-// import { useAuth } from "../context/AuthContext";
-// import { useTranslation } from "react-i18next"; // Importa useTranslation
-// import { motion } from "framer-motion";
-
-// function Delete() {
-//   const { t } = useTranslation(); // Inizializza useTranslation
-//   const { user } = useAuth(); // Uso il contesto di autenticazione
-//   const navigate = useNavigate();
-//   const [borghi, setBorghi] = useState([]);
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const [totalPages, setTotalPages] = useState(1);
-//   // const [favorites, setFavorites] = useState([]);
-
-//   useEffect(() => {
-//     const fetchDetails = async () => {
-//       setIsLoading(true);
-//       try {
-//         const response = await fetch(
-//           `https://borghi-backend.onrender.com/api/v1/borghi/` // porta default per la produzione
-//           // `http://localhost:3000/api/v1/borghi` // porta default per il backend
-//           // { mode: "no-cors" }
-//         );
-//         const { borghi: initialBorghi, totalPages } = await response.json();
-
-//         // Unire i dati esistenti con i nuovi dati senza duplicati
-//         const allBorghi = [...borghi, ...initialBorghi];
-
-//         // Creare un set per evitare duplicati
-//         const uniqueBorghi = Array.from(
-//           new Set(allBorghi.map((borgo) => borgo._id))
-//         ).map((id) => {
-//           return allBorghi.find((borgo) => borgo._id === id);
-//         });
-
-//         setBorghi(uniqueBorghi.sort((a, b) => a.name.localeCompare(b.name)));
-//         setTotalPages(totalPages);
-//       } catch (error) {
-//         console.error("Errore durante il fetching dei borghi:", error);
-//       } finally {
-//         setIsLoading(false);
-//       }
-//     };
-//     fetchDetails();
-//   }, [currentPage]);
-
-//   // useEffect(() => {
-//   //   const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-//   //   setFavorites(savedFavorites);
-//   // }, []);
-
-//   // const handleFavoriteToggle = (borgoId) => {
-//   //   let updatedFavorites;
-//   //   if (favorites.includes(borgoId)) {
-//   //     updatedFavorites = favorites.filter((favId) => favId !== borgoId);
-//   //   } else {
-//   //     updatedFavorites = [...favorites, borgoId];
-//   //   }
-//   //   setFavorites(updatedFavorites);
-//   //   localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-//   // };
-
-//   const handleDeleteBorgo = async () => {
-//     // e.preventDefault();
-//     // if (window.confirm("Sei sicuro di voler eliminare questo borgo?"))
-//     try {
-//       const response = await fetch(
-//         `https://borghi-backend.onrender.com/api/v1/borghi/${borgo._id}`, // URL del backend
-//         {
-//           method: "DELETE",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-
-//       if (response.ok) {
-//         // Aggiorna la lista dei borghi localmente
-//         alert("Borgo cancellato con successo!");
-
-//         setBorghi(borghi.filter((borgo) => borgo._id !== borgo._id));
-//         navigate("/thanks");
-//       }
-//       // } else {
-//       //   console.error(
-//       //     "Errore durante la cancellazione del borgo:",
-//       //     await response.text()
-//       //   );
-//       // }
-//     } catch (error) {
-//       console.error("Errore durante la richiesta DELETE:", error);
-//     }
-//   };
-
-//   // const handleLoadMore = async () => {
-//   //   setCurrentPage((prevPage) => prevPage + 1);
-//   // };
-
-//   // const handleCardClick = () => {
-//   //   if (!user) {
-//   //     navigate("/login");
-//   //   } else {
-//   //     navigate("/borgo/${borgo.id}");
-//   //   }
-//   // };
-
-//   if (isLoading) {
-//     return <Loader />;
-//   }
-
-//   return (
-//     <motion.div
-//       className="box"
-//       initial={{ opacity: 0, scale: 0.5 }}
-//       animate={{ opacity: 1, scale: 1 }}
-//       transition={{
-//         duration: 0.8,
-//         delay: 0.5,
-//         ease: [0, 0.71, 0.2, 1.01],
-//       }}
-//     >
-//       <div className="flex-wrap m-4 text-center justify-center">
-//         <p>{t("deleteBorgo")}</p> {/* Traduci il testo */}
-//       </div>
-//       <div className="flex flex-wrap justify-center grid-flow-row-dense grid-cols-2 grid-rows-3">
-//         {borghi.map((borgo) => {
-//           // const isFavorite = favorites.includes(borgo._id);
-//           return (
-//             <div
-//               className="max-w-80 rounded-lg overflow-hidden shadow-xl m-5 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:duration-300"
-//               key={borgo._id ? borgo._id : ""}
-//             >
-//               {/* <Link to={"/borgo/" + (borgo._id ? borgo._id : "")}> */}
-//               <img
-//                 className="w-auto overflow-hidden m-auto"
-//                 src={borgo.imgURL}
-//                 alt={borgo.name}
-//               />
-//               <h1 className="flex flex-col text-center justify-center font-semibold mt-5">
-//                 {borgo.name}
-//               </h1>
-//               {/* </Link> */}
-//               <button
-//                 onClick={(e) => {
-//                   e.stopPropagation(); // Impedisce al click del bottone di attivare il click della card
-//                   handleDeleteBorgo(borgo._id);
-//                 }}
-//               >
-//                 <XIcon className="float-right my-3 mx-5 h-6 text-red-500" />
-//               </button>
-//             </div>
-//           );
-//         })}
-//       </div>
-//     </motion.div>
-//   );
-// }
-
-// export default Delete;
-
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 import { XMarkIcon } from "@heroicons/react/20/solid";
-// import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 
-function Delete() {
+const Delete = () => {
   const { t } = useTranslation();
-  // const { user } = useContext(AuthContext); // Uso il contesto di autenticazione
   const navigate = useNavigate();
   const [borghi, setBorghi] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -185,62 +18,64 @@ function Delete() {
       ? "http://localhost:3000"
       : "https://borghi-backend.onrender.com";
 
-  useEffect(() => {
-    const fetchDetails = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(`${baseURL}/borghi?page=${currentPage}`);
-        // const response = await fetch(`${baseURL}/borghi/`);
-        const { borghi: initialBorghi, totalPages } = await response.json();
+  // FETCH BORGHI
+  const fetchBorghi = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${baseURL}/borghi?page=${currentPage}`);
+      if (!res.ok) throw new Error(`HTTP error: ${res.statusText}`);
 
-        // Unire i dati esistenti con i nuovi dati senza duplicati
-        const allBorghi = [...borghi, ...initialBorghi];
+      const { borghi: newBorghi = [], totalPages: newTotalPages } =
+        await res.json();
 
-        // Creare un set per evitare duplicati
-        const uniqueBorghi = Array.from(
-          new Set(allBorghi.map((borgo) => borgo._id))
-        ).map((id) => {
-          return allBorghi.find((borgo) => borgo._id === id);
-        });
+      // Merge existing and new borghi
+      const allBorghi = [...borghi, ...newBorghi];
 
-        setBorghi(uniqueBorghi.sort((a, b) => a.name.localeCompare(b.name)));
-        setTotalPages(totalPages);
-      } catch (error) {
-        console.error("Errore durante il fetching dei borghi:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      // Use Map for efficient deduplication based on _id
+      const uniqueBorghi = Array.from(
+        allBorghi
+          .reduce((map, borgo) => map.set(borgo._id, borgo), new Map())
+          .values()
+      ).sort((a, b) => a.name.localeCompare(b.name));
 
-    fetchDetails();
-  }, [currentPage]);
-
-  const handleDeleteBorgo = async (borgoId) => {
-    if (window.confirm("Sei sicuro di voler eliminare questo borgo?"))
-      try {
-        const response = await fetch(`${baseURL}/borghi/${borgoId}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (response.ok) {
-          alert("Borgo cancellato con successo!");
-          setBorghi((prevBorghi) =>
-            prevBorghi.filter((borgo) => borgo._id !== borgoId)
-          );
-          navigate("/borghi");
-        } else {
-          console.error(
-            "Errore durante la cancellazione del borgo:",
-            await response.text()
-          );
-        }
-      } catch (error) {
-        console.error("Errore durante la richiesta DELETE:", error);
-      }
+      setBorghi(uniqueBorghi);
+      setTotalPages(newTotalPages);
+    } catch (error) {
+      console.error("Errore durante il fetching dei borghi:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  // DELETE HANDLER
+  const handleDeleteBorgo = async (id) => {
+    if (
+      !window.confirm(
+        t("confirmDelete", "Sei sicuro di voler eliminare questo borgo?")
+      )
+    )
+      return;
+
+    try {
+      const res = await fetch(`${baseURL}/borghi/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (res.ok) {
+        setBorghi((prev) => prev.filter((b) => b._id !== id));
+        navigate("/borghi");
+      } else {
+        console.error("Errore nella cancellazione:", await res.text());
+      }
+    } catch (err) {
+      console.error("Errore nella richiesta DELETE:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchBorghi();
+  }, [currentPage]);
 
   if (isLoading) {
     return <Loader />;
@@ -257,36 +92,66 @@ function Delete() {
         ease: [0, 0.71, 0.2, 1.01],
       }}
     >
-      <div className="flex-wrap m-4 text-center justify-center">
-        <p>{t("deleteBorgo", "Cancella Borgo")}</p>
+      <div className="py-6 px-4 text-center">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+          {t("deleteBorgo", "Cancella Borgo")}
+        </h2>
+        <div className="w-20 h-1 bg-blue-500 mx-auto rounded-full mb-6"></div>
       </div>
-      <div className="flex flex-wrap justify-center grid-flow-row-dense grid-cols-2 grid-rows-3">
+
+      <div className="flex flex-wrap justify-center gap-6 px-4">
         {borghi.map((borgo) => (
-          <div
-            className="max-w-80 rounded-lg overflow-hidden shadow-xl m-5 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:duration-300"
+          <motion.div
+            whileHover={{
+              y: -8,
+              boxShadow:
+                "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+            }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="w-80 bg-white rounded-xl overflow-hidden shadow-lg"
             key={borgo._id}
           >
-            <img
-              className="w-auto overflow-hidden m-auto"
-              src={borgo.imgURL || "default-image-url.jpg"}
-              alt={borgo.name || "Borgo"}
-            />
-            <h1 className="flex flex-col text-center justify-center font-semibold mt-5">
-              {borgo.name || "Nome non disponibile"}
-            </h1>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDeleteBorgo(borgo._id);
-              }}
-            >
-              <XMarkIcon className="float-right my-3 mx-5 h-6 text-red-500" />
-            </button>
-          </div>
+            <div className="relative overflow-hidden group">
+              <img
+                className="w-full h-56 object-cover transform transition-transform duration-500 group-hover:scale-110"
+                src={borgo.imgURL || "https://via.placeholder.com/300x200"}
+                alt={borgo.name || "Borgo"}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+            <div className="p-5">
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-xl font-bold text-gray-800">
+                  {borgo.name || "Senza Nome"}
+                </h3>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteBorgo(borgo._id);
+                  }}
+                  className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
+                >
+                  <XMarkIcon className="h-6 w-6 text-red-500 transition-colors duration-300" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
         ))}
       </div>
+
+      {currentPage < totalPages && (
+        <div className="flex justify-center mt-10 mb-8">
+          <button
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-md transition-colors duration-300"
+            onClick={() => setCurrentPage((prev) => prev + 1)}
+          >
+            {t("load_more", "Carica altri")}
+          </button>
+        </div>
+      )}
     </motion.div>
   );
-}
+};
 
 export default Delete;

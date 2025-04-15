@@ -313,6 +313,11 @@ export const useManageAdmin = () => {
     return response?.data || null;
   };
 
+  const getUsers = async () => {
+    const response = await apiRequest("get", "/admin/users");
+    return response?.data || null;
+  };
+
   const createAdmin = async ({ formData }) => {
     const response = await apiRequest("post", "/admin/sign-up", formData, true);
 
@@ -379,6 +384,7 @@ export const useManageAdmin = () => {
     isLoading,
     getAdmins,
     getAdminById,
+    getUsers,
     createAdmin,
     updateAdmin,
     deleteAdmin,

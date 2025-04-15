@@ -3,9 +3,8 @@ import { useAuthContext } from "../hooks/auth/useAuthContext";
 import Loader from "../components/Loader";
 import { useManageUsers } from "../hooks/users/useManageUsers";
 import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
 
-const UpdateProfile = ({ userId }) => {
+const UpdateUser = ({ userId }) => {
   const { updateUser, getUserProfile, isLoading } = useManageUsers();
   const { user } = useAuthContext();
   const { t } = useTranslation();
@@ -107,7 +106,7 @@ const UpdateProfile = ({ userId }) => {
 
     // Validazione
     if (formData.password && formData.password !== formData.confirmPassword) {
-      toast.error("Le password non corrispondono.");
+      window.alert("Le password non corrispondono.");
       return;
     }
 
@@ -284,9 +283,7 @@ const UpdateProfile = ({ userId }) => {
                     ? "bg-[#b6a7a7] cursor-not-allowed"
                     : "bg-red-800 hover:bg-[#12657f] text-white"
                 }`}
-              >
-                {isLoading ? "AGGIORNAMENTO..." : "AGGIORNA"}
-              </button>
+              ></button>
             </div>
           </form>
         </>
@@ -295,4 +292,4 @@ const UpdateProfile = ({ userId }) => {
   );
 };
 
-export default UpdateProfile;
+export default UpdateUser;

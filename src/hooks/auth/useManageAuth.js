@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import errorHandler from "../utils/errorHandler";
 
 export const useManageAuth = () => {
@@ -48,18 +47,10 @@ export const useManageAuth = () => {
           console.log("Il parametro model è definito");
         }
 
-        // const profilePath =
-        //   user.isAdmin === "false" ? "dashboard" : "dashboardadmin";
-        // navigate(`/${profilePath}/`);
-
-        toast.success(`Welcome back, ${json.user.firstName}!`);
         setTimeout(() => {
           navigate(`/${model}/dashboard`);
-        });
+        }, 200);
         return json;
-        // } else if (codeRequested) {
-        //   setIsLoading(false);
-        //   return { requiresTwoFactor: true };
       }
     } catch (error) {
       console.error("Error during login", error);
@@ -76,7 +67,7 @@ export const useManageAuth = () => {
       ) {
         try {
           await requestNewVerificationEmail(formData.email);
-          toast.success("New verification email requested successfully.");
+          window.alert("New verification email requested successfully.");
         } catch (err) {
           console.error("Error requesting new verification email:", err);
         }
@@ -117,7 +108,6 @@ export const useManageAuth = () => {
         if (model) {
           console.log("Il parametro model è definito");
         }
-        toast.success(`Welcome back, ${json.user.firstName}!`);
         setTimeout(() => {
           navigate(`/${model}/dashboard`);
         });
@@ -138,7 +128,7 @@ export const useManageAuth = () => {
       ) {
         try {
           await requestNewVerificationEmail(formData.email);
-          toast.success("New verification email requested successfully.");
+          window.alert("New verification email requested successfully.");
         } catch (err) {
           console.error("Error requesting new verification email:", err);
         }
@@ -160,7 +150,6 @@ export const useManageAuth = () => {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
         dispatch({ type: "LOGOUT" });
-        toast.success("Logout successful!");
 
         navigate("/signout");
       }
@@ -173,7 +162,7 @@ export const useManageAuth = () => {
         localStorage.removeItem("token");
         dispatch({ type: "LOGOUT" });
 
-        toast.warning("Session expired. Please log in again.");
+        window.alert("Session expired. Please log in again.");
       } else {
         errorHandler(error);
       }
@@ -259,7 +248,6 @@ export const useManageAuth = () => {
         } else if (model === "admin") {
           navigate("/loginadmin");
         }
-        toast.success(res.data.message);
       }
     } catch (error) {
       setIsLoading(false);
@@ -282,7 +270,6 @@ export const useManageAuth = () => {
       if (res.status === 200) {
         setIsLoading(false);
         navigate("/");
-        toast.success(res.data.message);
       }
     } catch (error) {
       setIsLoading(false);

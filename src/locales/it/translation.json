@@ -203,6 +203,8 @@
   "forgot_password": "Hai dimenticato la password?",
 
   "update_profile": "Aggiorna il tuo profilo",
+  "get_users": "Ottieni informazioni degli utenti",
+  "get_admins": "Ottieni informazioni degli admin",
 
   "delete_profile": "Cancella il tuo profilo"
 }

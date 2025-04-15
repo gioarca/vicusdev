@@ -352,7 +352,6 @@ function DashboardAdmin() {
   const { user } = useAuthContext();
   const { logout } = useManageAuth();
   const { deleteAdmin } = useManageAdmin();
-  const { updateAdmin } = useManageAdmin();
 
   const name = user?.firstName || user?.displayName || "Admin";
 
@@ -408,11 +407,13 @@ function DashboardAdmin() {
 const adminMenuItems = [
   { label: "access_borghi", href: "/borghi", icon: "🏛️" },
   { label: "read_news", href: "/news", icon: "📰" },
+  { label: "get_users", href: "/admin/users", icon: "👤" },
+  { label: "get_admins", href: "/admin/admins", icon: "👤" },
   { label: "add_borgo", href: "/addborgo", icon: "➕" },
   { label: "update_borgo", href: "/updateborgo", icon: "✏️" },
   { label: "delete_borgo", href: "/deleteborgo", icon: "🗑️" },
   { label: "update_profile", href: "/admin/update", icon: "✏️" },
-  { label: "delete_profile", onClick: "/deleteAdmin", icon: "🗑️" },
+  { label: "delete_profile", onClick: "deleteAdmin", icon: "🗑️" },
   { label: "logout", onClick: "logout", variant: "outline", icon: "🚪" },
 ];
 

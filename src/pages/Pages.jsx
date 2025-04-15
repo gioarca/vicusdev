@@ -32,7 +32,9 @@ import PrivateRoute from "../components/PrivateRoute";
 import UpdateProfile from "./UpdateProfile.jsx";
 import UpdateAdmin from "./UpdateAdmin.jsx";
 import LoginAdmin from "./LoginAdmin.jsx";
-import ThanksBorgo from "./ThanksBorgo.jsx";
+import ThanksBorgo from "./Borghi/ThanksBorgo.jsx";
+import Users from "./Users.jsx";
+import Admins from "./Admins.jsx";
 
 function Pages() {
   const { user } = useAuthContext();
@@ -132,6 +134,32 @@ function Pages() {
               }
             />
             <Route path="/registrationadmin" element={<RegistrationAdmin />} />
+
+            <Route
+              path="/admin/users"
+              element={
+                user && user.role === "admin" ? (
+                  <PrivateRoute>
+                    <Users model="admin" />
+                  </PrivateRoute>
+                ) : (
+                  <LoginAdmin />
+                )
+              }
+            />
+
+            <Route
+              path="/admin/admins"
+              element={
+                user && user.role === "admin" ? (
+                  <PrivateRoute>
+                    <Admins model="admin" />
+                  </PrivateRoute>
+                ) : (
+                  <LoginAdmin />
+                )
+              }
+            />
 
             <Route
               path="/admin/dashboard"

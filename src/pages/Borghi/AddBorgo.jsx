@@ -45,7 +45,7 @@ function AddBorgo() {
           place: "",
           imgURL: "",
         });
-        navigate("/thanks");
+        navigate("/borghi/thanks");
       }
     } catch (error) {
       console.error("Errore:", error);

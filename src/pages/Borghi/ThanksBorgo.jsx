@@ -12,8 +12,16 @@ function ThanksBorgo() {
     });
   }, []);
 
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-6">
+    <div
+      variants={fadeInUp}
+      className="min-h-screen flex items-center justify-center bg-white px-6"
+    >
       <div className="text-center max-w-lg mx-auto space-y-6">
         {/* Icona SVG animata */}
         <div className="w-20 h-20 mx-auto mb-2">
