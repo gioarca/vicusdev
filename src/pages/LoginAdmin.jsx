@@ -5,17 +5,28 @@ import { animateScroll as scroll } from "react-scroll";
 import { useManageAuth } from "../hooks/auth/useManageAuth";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
 const LoginAdmin = ({ model }) => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { loginAdmin, admin, isLoading } = useManageAuth();
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [rememberMe, setRememberMe] = useState(false);
+
+  const [passwordVisibility, setPasswordVisibility] = useState({
+    password: false,
+  });
+
+  const togglePasswordVisibility = (field) => {
+    setPasswordVisibility((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
 
   const handleInputChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -61,6 +72,7 @@ const LoginAdmin = ({ model }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="max-w-md w-full bg-white shadow-2xl rounded-3xl overflow-hidden"
+        variants={fadeInUp}
       >
         <div className="p-8">
           <div className="flex flex-col items-center">
@@ -90,43 +102,31 @@ const LoginAdmin = ({ model }) => {
                     value={formData.email}
                     onChange={handleInputChange}
                     icon="✉️"
+                    isPassword={false}
                   />
                   <InputField
                     name="password"
-                    type="password"
+                    type={passwordVisibility.password ? "text" : "password"}
                     placeholder={t("password")}
                     value={formData.password}
                     onChange={handleInputChange}
                     icon="🔒"
+                    isPassword={true}
+                    showPassword={passwordVisibility.password}
+                    onToggleVisibility={() =>
+                      togglePasswordVisibility("password")
+                    }
                   />
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <input
-                      id="rememberMe"
-                      name="Ricordati di me"
-                      type="checkbox"
-                      checked={rememberMe}
-                      onChange={() => setRememberMe(!rememberMe)}
-                      className="h-4 w-4 text-red-800 focus:ring-red-700 border-gray-300 rounded"
-                    />
-                    <label
-                      htmlFor="Ricordati di me"
-                      className="ml-2 block text-sm text-gray-600"
-                    >
-                      Ricordati di me
-                    </label>
-                  </div>
-                  <div className="text-sm">
-                    <Link
-                      to="/forgotpassword"
-                      className="font-medium text-red-800 hover:text-red-700"
-                    >
+                <div className="flex items-center justify-center">
+                  <div className="font-medium text-red-800 hover:text-red-700 text-sm">
+                    <Link to="/admin/password-reset ">
                       {t("forgot_password")}
                     </Link>
                   </div>
                 </div>
+
                 <div className="pt-4">
                   <button
                     disabled={isLoading}
@@ -139,8 +139,6 @@ const LoginAdmin = ({ model }) => {
               </motion.form>
             )}
             <div className="mt-10 text-center space-y-4 w-full">
-              {/* <div className="relative flex items-center"></div> */}
-
               <div className="border-t border-gray-100 pt-6 flex flex-col space-y-4">
                 <Link
                   to="/registration"
@@ -170,8 +168,18 @@ const LoginAdmin = ({ model }) => {
   );
 };
 
-// Input field component with animation
-const InputField = ({ name, type, placeholder, value, onChange, icon }) => {
+// Input field componente con animazione
+const InputField = ({
+  name,
+  type,
+  placeholder,
+  value,
+  onChange,
+  icon,
+  isPassword,
+  showPassword,
+  onToggleVisibility,
+}) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -193,6 +201,19 @@ const InputField = ({ name, type, placeholder, value, onChange, icon }) => {
           className="w-full py-4 bg-transparent placeholder-gray-400 text-gray-800 focus:outline-none"
           required
         />
+        {isPassword && (
+          <button
+            type="button"
+            onClick={onToggleVisibility}
+            className="ml-2 text-gray-400 hover:text-gray-600 focus:outline-none transition-colors duration-200"
+          >
+            {showPassword ? (
+              <IoEyeOffOutline className="w-5 h-5" />
+            ) : (
+              <IoEyeOutline className="w-5 h-5" />
+            )}
+          </button>
+        )}
       </div>
     </div>
   );

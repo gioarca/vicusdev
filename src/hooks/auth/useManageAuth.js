@@ -244,7 +244,7 @@ export const useManageAuth = () => {
       if (res.status === 200) {
         setIsLoading(false);
         if (model === "admin") {
-          navigate("/dashboardadmin");
+          navigate("/admin/dashboard");
         } else if (model === "admin") {
           navigate("/loginadmin");
         }

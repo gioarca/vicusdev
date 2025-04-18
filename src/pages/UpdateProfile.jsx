@@ -20,19 +20,16 @@ const UpdateUser = ({ userId }) => {
     phoneNumber: "",
   });
 
-  const [dataLoaded, setDataLoaded] = useState(false); // Flag per tracciare se i dati sono già stati caricati
+  const [dataLoaded, setDataLoaded] = useState(false);
 
-  // Carica i dati dell'utente quando il componente viene montato
   useEffect(() => {
-    // Evita di ricaricare i dati se sono già stati caricati
     if (dataLoaded) return;
 
     const loadUserData = async () => {
       if (!user) return;
-      // Se abbiamo già dati utente, li usiamo per inizializzare il form
+
       setFormData({
-        firstName: user.firstName || "",
-        lastName: user.lastName || "",
+        name: user.name || "",
         email: user.email || "",
         password: "",
         confirmPassword: "",
@@ -40,9 +37,7 @@ const UpdateUser = ({ userId }) => {
         phoneNumber: user.phoneNumber || "",
       });
 
-      // Opzionale: Recupera dati freschi dal database
       try {
-        // Usa l'ID passato come prop oppure l'ID dell'utente corrente
         const id = userId || user._id;
         const freshUserData = await getUserProfile(id);
         if (freshUserData) {
@@ -55,7 +50,6 @@ const UpdateUser = ({ userId }) => {
             password: "",
             confirmPassword: "",
           }));
-          // Segnala che i dati sono stati caricati
           setDataLoaded(true);
         }
       } catch (error) {
@@ -64,10 +58,9 @@ const UpdateUser = ({ userId }) => {
     };
 
     loadUserData();
-  }, [user, userId]); // Rimuovi getAdminById dalle dipendenze e aggiungi adminId
+  }, [user, userId]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -104,27 +97,25 @@ const UpdateUser = ({ userId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validazione
     if (formData.password && formData.password !== formData.confirmPassword) {
       window.alert("Le password non corrispondono.");
       return;
     }
 
-    // Crea una copia dei dati da inviare
     const dataToSubmit = { ...formData };
 
     try {
-      // Invia la richiesta di aggiornamento
       const result = await updateUser({ formData: dataToSubmit });
 
       if (result) {
-        // Reset solo i campi password dopo un aggiornamento riuscito
         setFormData((prev) => ({
           ...prev,
           password: "",
           confirmPassword: "",
         }));
         setIsFormModified(false);
+        // Feedback all'utente
+        window.alert("Profilo aggiornato con successo!");
       }
     } catch (error) {
       console.error("Errore nell'aggiornamento del profilo:", error);
@@ -134,36 +125,46 @@ const UpdateUser = ({ userId }) => {
   if (!user) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="text-center">
-          <h3 className="text-2xl mb-4">Sessione non valida</h3>
-          <p>Effettua il login per accedere a questa pagina.</p>
-          {/* Pulsante per tornare al login */}
+        <div className="text-center bg-white shadow-md rounded-lg p-8">
+          <h3 className="text-2xl mb-4 font-bold text-gray-800">
+            Sessione non valida
+          </h3>
+          <p className="text-gray-600 mb-4">
+            Effettua il login per accedere a questa pagina.
+          </p>
+          <a
+            href="/login"
+            className="px-6 py-2 bg-red-800 text-white rounded-full hover:bg-red-700 transition-all"
+          >
+            Vai al login
+          </a>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="px-2 md:px-10 2xl:px-20">
-      {isLoading && (
+    <div className="px-4 md:px-10 2xl:px-20 max-w-5xl mx-auto py-6">
+      {isLoading ? (
         <div className="flex items-center justify-center mx-auto py-10">
           <Loader />
         </div>
-      )}
-      {!isLoading && (
-        <>
-          <div className="font-semibold flex items-center mx-auto justify-center mt-3">
-            <h3 className="text-4xl leading-[30px] text-black text-center px-3 mb-3">
+      ) : (
+        <div className="bg-white rounded-xl shadow-md p-6">
+          <div className="font-semibold flex items-center justify-center mb-6">
+            <h3 className="text-3xl md:text-4xl text-gray-800 text-center px-3 border-b-2 border-red-800 pb-2">
               {t("update_profile")}
             </h3>
           </div>
-          <form onSubmit={handleSubmit} className="">
-            <div className="flex justify-center items-center gap-4 mx-auto pt-4">
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Profile Picture Section */}
+            <div className="flex flex-col md:flex-row justify-center items-center gap-6 mx-auto pt-4">
               <div className="flex items-center justify-center">
-                <figure className="w-[100px] h-[100px] md:w-[120px] md:h-[120px] rounded-full border-2 border-solid border-secondary flex items-center justify-center">
+                <figure className="w-[120px] h-[120px] rounded-full border-2 border-red-800 shadow-md flex items-center justify-center overflow-hidden">
                   <img
                     src={formData.profilePicture || "/default-avatar.png"}
-                    alt=""
+                    alt="Profile"
                     className="w-full h-full rounded-full object-cover"
                     onError={(e) => {
                       e.target.src = "/default-avatar.png";
@@ -171,17 +172,32 @@ const UpdateUser = ({ userId }) => {
                   />
                 </figure>
               </div>
-              <div className="flex items-center justify-center">
+
+              <div className="flex flex-col items-center justify-center">
                 <label
                   htmlFor="dropzone-file"
-                  className="flex flex-col items-center justify-center border-2 border-secondary border-dashed rounded-lg bg-gray-50 cursor-pointer hover:bg-gray-100"
+                  className="flex flex-col items-center justify-center w-full border-2 border-red-800 border-dashed rounded-lg bg-gray-50 cursor-pointer hover:bg-gray-100 transition-all"
                 >
-                  <div className="flex flex-col items-center justify-center py-5 px-2">
-                    <p className="mb-2 text-sm text-gray-600 text-center">
-                      <span className="font-semibold">Clicca per caricare</span>{" "}
-                      o trascina e rilascia
+                  <div className="flex flex-col items-center justify-center py-4 px-4">
+                    <svg
+                      className="w-8 h-8 mb-2 text-gray-600"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 16v-4m0-4h.01M12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18Z"
+                      />
+                    </svg>
+                    <p className="mb-1 text-sm text-gray-600 text-center font-medium">
+                      <span className="font-semibold">Clicca per caricare</span>
                     </p>
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xs text-gray-500">
                       PNG, JPEG o JPG (max. 10MB)
                     </p>
                   </div>
@@ -194,99 +210,129 @@ const UpdateUser = ({ userId }) => {
                   />
                 </label>
                 {imageError && (
-                  <p className="text-red-500 text-sm ml-2">{imageError}</p>
+                  <p className="text-red-500 text-sm mt-2">{imageError}</p>
                 )}
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 my-8 gap-8 items-center justify-center mx-auto px-10">
-              <div>
-                <label className="text-xl leading-[20px] font-bold">
+
+            {/* Griglia campi form */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="form-group">
+                <label className="text-base font-semibold text-gray-700 block mb-1">
                   {t("name")}
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    className="text-lg w-full px-4 py-2 mt-2 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 "
-                  />
                 </label>
-              </div>
-              <div>
-                <label className="text-xl leading-[20px] font-bold">
-                  {t("surname")}
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    className="text-lg w-full px-4 py-2 mt-2 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 "
-                  />
-                </label>
-              </div>
-              <div>
-                <label className="text-xl leading-[20px] font-bold">
-                  Email
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="text-lg w-full px-4 py-2 mt-2 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 "
-                  />
-                </label>
-              </div>
-              <div>
-                <label className="text-xl leading-[20px] font-bold">
-                  {t("phone")}
-                  <input
-                    type="text"
-                    name="phoneNumber"
-                    value={formData.phoneNumber}
-                    onChange={handleChange}
-                    className="text-lg w-full px-4 py-2 mt-2 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 "
-                  />
-                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="text-base w-full px-4 py-3 rounded-lg font-medium bg-gray-50 border border-gray-300 focus:border-red-800 focus:outline-none focus:ring-1 focus:ring-red-800 transition-all"
+                  placeholder="Inserisci il tuo nome"
+                />
               </div>
 
-              <div>
-                <label className="text-xl leading-[20px] font-bold">
-                  {t("password")}
-                  <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="text-lg w-full px-4 py-2 mt-2 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 "
-                  />
+              <div className="form-group">
+                <label className="text-base font-semibold text-gray-700 block mb-1">
+                  Email
                 </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="text-base w-full px-4 py-3 rounded-lg font-medium bg-gray-50 border border-gray-300 focus:border-red-800 focus:outline-none focus:ring-1 focus:ring-red-800 transition-all"
+                  placeholder="nome@esempio.com"
+                />
               </div>
-              <div>
-                <label className="text-xl leading-[20px] font-bold">
-                  {t("confirm_password")}
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    className="text-lg w-full px-4 py-2 mt-2 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 "
-                  />
+
+              <div className="form-group">
+                <label className="text-base font-semibold text-gray-700 block mb-1">
+                  {t("phone")}
                 </label>
+                <input
+                  type="text"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  className="text-base w-full px-4 py-3 rounded-lg font-medium bg-gray-50 border border-gray-300 focus:border-red-800 focus:outline-none focus:ring-1 focus:ring-red-800 transition-all"
+                  placeholder="+39 123 456 7890"
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="text-base font-semibold text-gray-700 block mb-1">
+                  {t("password")}
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="text-base w-full px-4 py-3 rounded-lg font-medium bg-gray-50 border border-gray-300 focus:border-red-800 focus:outline-none focus:ring-1 focus:ring-red-800 transition-all"
+                  placeholder="Nuova password"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Lascia vuoto per mantenere la password attuale
+                </p>
+              </div>
+
+              <div className="form-group">
+                <label className="text-base font-semibold text-gray-700 block mb-1">
+                  {t("confirm_password")}
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  className="text-base w-full px-4 py-3 rounded-lg font-medium bg-gray-50 border border-gray-300 focus:border-red-800 focus:outline-none focus:ring-1 focus:ring-red-800 transition-all"
+                  placeholder="Conferma password"
+                />
               </div>
             </div>
 
-            <div className="flex justify-center py-5">
+            {/* Pulsante Submit */}
+            <div className="flex justify-center mt-10">
               <button
                 type="submit"
                 disabled={isLoading || !isFormModified}
-                className={`px-8 py-4 leading-5 transition-colors duration-200 transform rounded-full text-xl font-semibold ${
+                className={`px-10 py-3 rounded-full text-white font-semibold text-lg transition-all ${
                   !isFormModified
-                    ? "bg-[#b6a7a7] cursor-not-allowed"
-                    : "bg-red-800 hover:bg-[#12657f] text-white"
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-red-800 hover:bg-red-700 shadow-md hover:shadow-lg transform hover:-translate-y-1"
                 }`}
-              ></button>
+              >
+                {isLoading ? (
+                  <span className="flex items-center justify-center">
+                    <svg
+                      className="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    {t("updating")}...
+                  </span>
+                ) : (
+                  t("update").toUpperCase()
+                )}
+              </button>
             </div>
           </form>
-        </>
+        </div>
       )}
     </div>
   );

@@ -15,7 +15,6 @@ const Login = ({ model }) => {
     email: "",
     password: "",
   });
-  const [rememberMe, setRememberMe] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -99,28 +98,9 @@ const Login = ({ model }) => {
                   />
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <input
-                      id="rememberMe"
-                      name="Ricordati di me"
-                      type="checkbox"
-                      checked={rememberMe}
-                      onChange={() => setRememberMe(!rememberMe)}
-                      className="h-4 w-4 text-red-800 focus:ring-red-700 border-gray-300 rounded"
-                    />
-                    <label
-                      htmlFor="Ricordati di me"
-                      className="ml-2 block text-sm text-gray-600"
-                    >
-                      Ricordati di me
-                    </label>
-                  </div>
-                  <div className="text-sm">
-                    <Link
-                      to="/forgotpassword"
-                      className="font-medium text-red-800 hover:text-red-700"
-                    >
+                <div className="flex items-center justify-center">
+                  <div className="font-medium text-red-800 hover:text-red-700 text-sm">
+                    <Link to="/user/password-reset ">
                       {t("forgot_password")}
                     </Link>
                   </div>

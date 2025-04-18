@@ -1,114 +1,80 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { useManageAuth } from "../../hooks/auth/useManageAuth";
-import Loader from "../Loader";
-import { IoIosCheckmarkCircle } from "react-icons/io";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { CheckCircle2 } from "lucide-react";
+import Confetti from "react-confetti";
 
-const EmailVerified = ({ model }) => {
-  const { token } = useParams();
-  const { verifyMail, requestNewVerificationEmail, isLoading } =
-    useManageAuth();
+const EmailVerified = () => {
+  const [showConfetti, setShowConfetti] = useState(true);
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
-  const [verificationStatus, setVerificationStatus] = useState(null);
-  const [showNewVerificationMailButton, setshowNewVerificationMailButton] =
-    useState(false);
-  const [email, setEmail] = useState("");
-
-  const verifyEmail = async () => {
-    try {
-      const isMailVerified = await verifyMail(model, token);
-
-      if (isMailVerified) {
-        setVerificationStatus("success");
-        toast.success("Email verified! You can now Log In.");
-      }
-    } catch (error) {
-      console.error("Error during email verification:", error);
-      setVerificationStatus("error");
-
-      if (error.name === "TokenExpiredError") {
-        setshowNewVerificationMailButton(true);
-      }
-    }
-  };
-
-  const handleRequestNewVerificationEmail = async () => {
-    try {
-      const isNewVerificationMailSent = await requestNewVerificationEmail(
-        email
-      );
-      if (isNewVerificationMailSent) {
-        toast.success(
-          "New verification email requested successfully. Check your inbox."
-        );
-      }
-    } catch (error) {
-      console.error("Error requesting new verification email:", error);
-      toast.error(
-        "Failed to request a new verification email. Please try again or contact support."
-      );
-    }
-  };
-
+  // Confetti: stop dopo un po’ + ottimizzazione viewport
   useEffect(() => {
-    verifyEmail();
-  }, [token]);
+    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    const timer = setTimeout(() => setShowConfetti(false), 5000); // confetti per 5 sec
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <section className="flex flex-col items-center justify-center md:h-screen px-3 md:px-0 py-10 md:py-20">
-      {isLoading && (
-        <div className="flex items-center justify-center mx-auto py-10">
-          <Loader />
-        </div>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-50 to-white px-4 relative overflow-hidden"
+    >
+      {/* Confetti 🎉 */}
+      {showConfetti && (
+        <Confetti
+          width={windowSize.width}
+          height={windowSize.height}
+          numberOfPieces={200}
+          recycle={false}
+        />
       )}
-      {!isLoading && verificationStatus === "success" && (
-        <>
-          <h3 className="text-[#168aad] text-3xl leading-9 font-semibold mb-6 text-center">
-            Mail verificata!
-          </h3>
-          <div className="text-center md:h-screen">
-            <div className="flex flex-col md:flex-row mx-auto justify-center items-center gap-3">
-              <IoIosCheckmarkCircle className="w-[100px] h-[100px] text-green-400" />
-              <p className="text-gray-500 text-xl font-semibold">
-                Ora puoi loggarti.
-              </p>
-            </div>
-          </div>
-        </>
-      )}
-      {!isLoading && verificationStatus === "error" && (
-        <>
-          <h3 className="text-[#168aad] text-3xl leading-9 font-semibold mb-6 text-center">
-            Email verification failed. Please try again or contact support.
-          </h3>
-          {showNewVerificationMailButton && (
-            <div className="w-full max-w-[570px] rounded-lg shadow-2xl p-10 bg-white">
-              <div className="mb-5">
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="Enter your Email"
-                  name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full py-3 pl-2 border-b border-solid border-gray-300 focus:outline-none focus:border-gray-800 text-xl leading-7 text-gray-500 cursor-pointer"
-                  required
-                />
-              </div>
-              <div className="mt-7">
-                <button
-                  onClick={handleRequestNewVerificationEmail}
-                  className="px-5 py-3 leading-4 transition-colors duration-200 transform rounded-lg text-xl font-semibold text-white bg-[#168aad] hover:bg-[#12657f]"
-                >
-                  Send new verification email
-                </button>
-              </div>
-            </div>
-          )}
-        </>
-      )}
-    </section>
+
+      {/* Icona animata */}
+      <motion.div
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+        className="text-green-600 mb-4"
+      >
+        <CheckCircle2 size={64} strokeWidth={1.5} />
+      </motion.div>
+
+      {/* Titolo principale */}
+      <motion.h1
+        initial={{ y: 10, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+        className="text-3xl md:text-4xl font-bold text-center text-gray-800"
+      >
+        🎉 Email verificata!
+      </motion.h1>
+
+      {/* Sottotitolo */}
+      <motion.p
+        initial={{ y: 10, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.7, duration: 0.5 }}
+        className="text-gray-600 mt-2 text-center text-lg"
+      >
+        Ora puoi accedere al tuo account.
+      </motion.p>
+
+      {/* Pulsante */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1, duration: 0.4 }}
+        className="mt-8"
+      >
+        <a href="/login">
+          <button className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-lg transition duration-300">
+            Vai al login
+          </button>
+        </a>
+      </motion.div>
+    </motion.div>
   );
 };
 
