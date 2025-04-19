@@ -18,12 +18,11 @@ export const useManageAuth = () => {
   const userLogin = async ({ formData, model = "user" }) => {
     try {
       setIsLoading(true);
-      const res = await axios.post(`${baseURL}/${model}/login`, formData, {
-        withCredentials: true,
-      });
-      const { codeRequested, ...json } = res.data;
+      console.log("Form data per login:", formData);
+      const response = await axios.post(`${baseURL}/${model}/login`, formData);
+      const { codeRequested, ...json } = response.data;
 
-      if (res.status === 200 && !codeRequested) {
+      if (response.status === 200 && !codeRequested) {
         dispatch({
           type: "LOGIN",
           payload: {
@@ -53,7 +52,7 @@ export const useManageAuth = () => {
         return json;
       }
     } catch (error) {
-      console.error("Error during login", error);
+      console.error("Errore durante il login", error);
       alert(
         "Errore durante il login, i tuoi dati non sono corretti oppure il tuo account non è stato verificato"
       );
@@ -151,18 +150,17 @@ export const useManageAuth = () => {
         localStorage.removeItem("token");
         dispatch({ type: "LOGOUT" });
 
-        navigate("/signout");
+        navigate("/signout"); // Redirect to the sign-out page
       }
     } catch (error) {
       console.error("Error during logout:", error);
 
       if (error.response && error.response.status === 401) {
-        console.log("Token expired. Logging out...");
+        console.log("Token rimosso. Disconnessione in corso...");
+        // Rimuovi i dati dell'utente e il token da localStorage
         localStorage.removeItem("user");
         localStorage.removeItem("token");
         dispatch({ type: "LOGOUT" });
-
-        window.alert("Session expired. Please log in again.");
       } else {
         errorHandler(error);
       }

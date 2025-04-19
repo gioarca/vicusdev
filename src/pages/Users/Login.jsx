@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Loader from "../components/Loader";
+import Loader from "../../components/Loader";
 import { animateScroll as scroll } from "react-scroll";
-import { useManageAuth } from "../hooks/auth/useManageAuth";
+import { useManageAuth } from "../../hooks/auth/useManageAuth";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
-const LoginAdmin = ({ model }) => {
+const Login = ({ model }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { loginAdmin, admin, isLoading } = useManageAuth();
+  const { userLogin, isLoading, user } = useManageAuth();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -32,14 +32,14 @@ const LoginAdmin = ({ model }) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const adminData = await loginAdmin({ formData, model });
-      if (adminData) {
-        navigate("/admin/dashboard"); // ✅ QUESTO FA IL REDIRECT DIRETTO
+      const userData = await userLogin({ formData, model });
+      if (userData) {
+        navigate("/user/dashboard"); // ✅ QUESTO FA IL REDIRECT DIRETTO
       }
-      console.log("Admin data:", adminData);
+      console.log("User data:", userData);
     } catch (error) {
       console.log("Error during login", error);
       alert("Email o password non corretti");
@@ -51,14 +51,11 @@ const LoginAdmin = ({ model }) => {
   };
 
   useEffect(() => {
-    scroll.scrollToTop({
-      duration: 1000,
-      smooth: "easeInOutQuad",
-    });
-    if (admin) {
-      navigate("/admin/dashboard");
+    scroll.scrollToTop({ duration: 1000, smooth: "easeInOutQuad" });
+    if (user) {
+      navigate("/user/dashboard");
     }
-  }, [admin, navigate]);
+  }, [user, navigate]);
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -66,22 +63,20 @@ const LoginAdmin = ({ model }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-gray-100 py-4 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="max-w-md w-full bg-white shadow-2xl rounded-3xl overflow-hidden"
-        variants={fadeInUp}
       >
         <div className="p-8">
           <div className="flex flex-col items-center">
             <h1 className="text-3xl font-light text-gray-800 mb-4">
               <span className="text-red-800 font-medium">
-                {t("welcome_back")} Admin
+                {t("welcome_back")}
               </span>
             </h1>
-
             {isLoading ? (
               <div className="flex items-center justify-center py-10">
                 <Loader />
@@ -121,7 +116,7 @@ const LoginAdmin = ({ model }) => {
 
                 <div className="flex items-center justify-center">
                   <div className="font-medium text-red-800 hover:text-red-700 text-sm">
-                    <Link to="/admin/password-reset ">
+                    <Link to="/user/password-reset ">
                       {t("forgot_password")}
                     </Link>
                   </div>
@@ -138,8 +133,19 @@ const LoginAdmin = ({ model }) => {
                 </div>
               </motion.form>
             )}
+
             <div className="mt-10 text-center space-y-4 w-full">
               <div className="border-t border-gray-100 pt-6 flex flex-col space-y-4">
+                <Link
+                  to="/loginadmin"
+                  className="text-sm text-gray-600 hover:text-red-800 transition-colors"
+                >
+                  {t("admin_account")}{" "}
+                  <span className="font-medium text-red-800">
+                    {t("click_here")}
+                  </span>
+                </Link>
+
                 <Link
                   to="/registration"
                   className="text-sm text-gray-600 hover:text-red-800 transition-colors"
@@ -154,7 +160,7 @@ const LoginAdmin = ({ model }) => {
                   to="/registrationadmin"
                   className="text-sm text-gray-600 hover:text-red-800 transition-colors"
                 >
-                  {t("normal_user")}{" "}
+                  {t("admin_or_structure")}{" "}
                   <span className="font-medium text-red-800">
                     {t("click_here")}
                   </span>
@@ -168,7 +174,7 @@ const LoginAdmin = ({ model }) => {
   );
 };
 
-// Input field componente con animazione
+// Input field component with animation
 const InputField = ({
   name,
   type,
@@ -219,4 +225,4 @@ const InputField = ({
   );
 };
 
-export default LoginAdmin;
+export default Login;

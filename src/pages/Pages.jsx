@@ -6,22 +6,22 @@ import { useAuthContext } from "../hooks/auth/useAuthContext.js";
 import Home from "./Home.jsx";
 import About from "./About";
 import Borgo from "./Borghi/Borgo";
-import Login from "./Login";
+import Login from "./Users/Login.jsx";
 import Borghi from "./Borghi/Borghi";
-import Registration from "./Registration";
+import Registration from "./Users/Registration";
 import Contacts from "./Contacts";
 import Work from "./Work";
 import Thanks from "./Thanks";
 import News from "./News";
 import NavBar from "../components/NavBar";
-import DashboardUser from "./DashboardUser";
+import DashboardUser from "./Users/DashboardUser";
 import SignOut from "./SignOut";
 import Goals from "./Goals";
 import Support from "./Support";
 import AddBorgo from "./Borghi/AddBorgo";
 import Favourites from "./Borghi/Favourites";
-import RegistrationAdmin from "./RegistrationAdmin";
-import DashboardAdmin from "./DashboardAdmin";
+import RegistrationAdmin from "./Admins/RegistrationAdmin";
+import DashboardAdmin from "./Admins/DashboardAdmin";
 import Delete from "./Borghi/DeleteBorgo";
 import Update from "./Borghi/UpdateBorgo";
 import BorghiToUpdate from "./Borghi/BorghiToUpdate";
@@ -29,12 +29,12 @@ import EmailVerified from "../components/Utils/EmailVerified";
 import PasswordResetRequest from "../pages/PasswordReset/PasswordResetRequest";
 import PasswordReset from "../pages/PasswordReset/PasswordReset";
 import PrivateRoute from "../components/PrivateRoute";
-import UpdateProfile from "./UpdateProfile.jsx";
-import UpdateAdmin from "./UpdateAdmin.jsx";
-import LoginAdmin from "./LoginAdmin.jsx";
+import UpdateProfile from "./Users/UpdateProfile.jsx";
+import UpdateAdmin from "./Admins/UpdateAdmin.jsx";
+import LoginAdmin from "./Admins/LoginAdmin.jsx";
 import ThanksBorgo from "./Borghi/ThanksBorgo.jsx";
-import Users from "./Users.jsx";
-import Admins from "./Admins.jsx";
+import Users from "./Admins/Users.jsx";
+import Admins from "./Admins/Admins.jsx";
 
 function Pages() {
   const { user } = useAuthContext();
@@ -47,6 +47,7 @@ function Pages() {
         <NavBar contactRef={contactRef} />
         <AnimatePresence>
           <Routes location={location} key={location.pathname}>
+            {/** Rotte normali comuni a tutti gli utenti senza registrazione **/}
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/borghi/:_id" element={<Borgo />} />
@@ -59,6 +60,11 @@ function Pages() {
             <Route path="/borghi/thanks" element={<ThanksBorgo />} />
             <Route path="/thankyouforyoursupport" element={<Support />} />
             <Route path="/workinprogress" element={<Work />} />
+            <Route path="/signout" element={<SignOut />} />
+            <Route path="/goals" element={<Goals />} />
+            <Route path="/registrationadmin" element={<RegistrationAdmin />} />
+
+            {/** Rotte per model = User **/}
             <Route
               path="/news"
               element={
@@ -71,8 +77,50 @@ function Pages() {
                 )
               }
             />
-            <Route path="/signout" element={<SignOut />} />
-            <Route path="/goals" element={<Goals />} />
+
+            <Route
+              path="/favourites"
+              element={
+                user ? (
+                  <PrivateRoute>
+                    <Favourites model="user" />
+                  </PrivateRoute>
+                ) : (
+                  <Login />
+                )
+              }
+            />
+
+            <Route
+              path="/user/dashboard"
+              element={
+                user ? (
+                  <PrivateRoute>
+                    <DashboardUser model="user" />
+                  </PrivateRoute>
+                ) : (
+                  <Login />
+                )
+              }
+            />
+            <Route
+              path="/user/verify-email/:token"
+              element={<EmailVerified model="user" />}
+            />
+            <Route
+              path="/user/password-reset"
+              element={<PasswordResetRequest model="user" />}
+            />
+            <Route
+              path="/user/update/"
+              element={<UpdateProfile model="user" />}
+            />
+            <Route
+              path="/user/password-reset/:token"
+              element={<PasswordReset model="user" />}
+            />
+
+            {/** Rotte per Admin **/}
             <Route
               path="/addBorgo"
               element={
@@ -121,19 +169,6 @@ function Pages() {
                 )
               }
             />
-            <Route
-              path="/favourites"
-              element={
-                user ? (
-                  <PrivateRoute>
-                    <Favourites model="user" />
-                  </PrivateRoute>
-                ) : (
-                  <Login />
-                )
-              }
-            />
-            <Route path="/registrationadmin" element={<RegistrationAdmin />} />
 
             <Route
               path="/admin/users"
@@ -175,52 +210,21 @@ function Pages() {
             />
 
             <Route
-              path="/user/dashboard"
-              element={
-                user ? (
-                  <PrivateRoute>
-                    <DashboardUser model="user" />
-                  </PrivateRoute>
-                ) : (
-                  <Login />
-                )
-              }
-            />
-
-            <Route
-              path="/user/verify-email/:token"
-              element={<EmailVerified model="user" />}
-            />
-            <Route
               path="/admin/verify-email/:token"
               element={<EmailVerified model="admin" />}
             />
 
             <Route
-              path="/user/password-reset"
-              element={<PasswordResetRequest model="user" />}
+              path="/admin/update/"
+              element={<UpdateAdmin model="admin" />}
             />
             <Route
               path="/admin/password-reset"
               element={<PasswordResetRequest model="admin" />}
             />
-
-            <Route
-              path="/user/password-reset/:token"
-              element={<PasswordReset model="user" />}
-            />
             <Route
               path="/admin/password-reset/:token"
               element={<PasswordReset model="admin" />}
-            />
-
-            <Route
-              path="/user/update/"
-              element={<UpdateProfile model="user" />}
-            />
-            <Route
-              path="/admin/update/"
-              element={<UpdateAdmin model="admin" />}
             />
           </Routes>
         </AnimatePresence>

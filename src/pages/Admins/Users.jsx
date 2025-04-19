@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useAuthContext } from "../hooks/auth/useAuthContext";
-import Loader from "../components/Loader";
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
+import { useManageAdmin } from "../../hooks/admins/useManageAdmins";
+import Loader from "../../components/Loader";
 import { motion } from "framer-motion";
-import { useManageAdmin } from "../hooks/admins/useManageAdmins";
 
-const Admins = () => {
+const Users = () => {
   const { user } = useAuthContext();
-  const [admins, setAdmins] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { getAllAdmin } = useManageAdmin();
+  const { getAllUsers } = useManageAdmin();
 
   useEffect(() => {
-    const fetchAdmins = async () => {
+    const fetchUsers = async () => {
       setLoading(true);
       const baseURL =
         process.env.NODE_ENV === "development"
@@ -19,14 +19,14 @@ const Admins = () => {
           : "https://borghi-backend.onrender.com";
 
       try {
-        const res = await fetch(`${baseURL}/admin/admins`, {
+        const res = await fetch(`${baseURL}/admin/users`, {
           method: "GET",
           credentials: "include", // fondamentale per i cookie JWT
         });
 
         if (!res.ok) throw new Error(`Errore durante il fetch: ${res.status}`);
         const data = await res.json();
-        setAdmins(data.admins || []); // assicurati che il backend usi 'admins'
+        setUsers(data.users || []); // assicurati che il backend usi 'users'
       } catch (err) {
         console.log("Errore:", err.message);
       } finally {
@@ -34,8 +34,7 @@ const Admins = () => {
       }
     };
 
-    fetchAdmins();
-    console.log("Admins", admins);
+    fetchUsers();
   }, []);
 
   if (loading) return <Loader />;
@@ -44,14 +43,14 @@ const Admins = () => {
     <div className="min-h-screen bg-gray-50 py-10 px-4">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-gray-800 mb-10">
-          Lista Amministratori <span className="ml-2 animate-pulse">👥</span>
+          Lista Utenti <span className="ml-2 animate-pulse">👥</span>
         </h1>
 
-        {admins.length === 0 ? (
+        {users.length === 0 ? (
           <p className="text-center text-gray-600">Nessun utente trovato.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {admins.map((u) => (
+            {users.map((u) => (
               <motion.div
                 key={u._id}
                 whileHover={{ scale: 1.05 }}
@@ -75,4 +74,4 @@ const Admins = () => {
   );
 };
 
-export default Admins;
+export default Users;

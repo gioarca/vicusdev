@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useAuthContext } from "../hooks/auth/useAuthContext";
-import Loader from "../components/Loader";
-import { useManageUsers } from "../hooks/users/useManageUsers";
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
+import Loader from "../../components/Loader";
+import { useManageUsers } from "../../hooks/users/useManageUsers";
 import { useTranslation } from "react-i18next";
 
 const UpdateUser = ({ userId }) => {

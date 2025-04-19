@@ -10,7 +10,7 @@ function Footer() {
         {/* Logo Vicus */}
         <a href="/" className="flex items-center space-x-2">
           <img
-            src="/favicon-96x96.png" // Sostituisci con il path corretto del tuo logo
+            src="/favicon-96x96.png" // Sostiture con il path corretto del tuo logo
             alt="Vicus Logo"
             className="h-10 w-auto object-contain"
           />

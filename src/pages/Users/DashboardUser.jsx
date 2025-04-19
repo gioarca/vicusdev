@@ -1,8 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useAuthContext } from "../hooks/auth/useAuthContext";
-import { useManageAuth } from "../hooks/auth/useManageAuth";
-import { useManageUsers } from "../hooks/users/useManageUsers";
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
+import { useManageAuth } from "../../hooks/auth/useManageAuth";
+import { useManageUsers } from "../../hooks/users/useManageUsers";
 
 function Dashboard() {
   const { user } = useAuthContext();

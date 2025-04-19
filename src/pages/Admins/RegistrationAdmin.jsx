@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from "react";
-import Loader from "../components/Loader";
+import Loader from "../../components/Loader";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { animateScroll as scroll } from "react-scroll";
-import { useManageUsers } from "../hooks/users/useManageUsers";
+import { useManageAdmin } from "../../hooks/admins/useManageAdmins";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
 
-const Registration = () => {
+const RegistrationAdmin = () => {
   const { t } = useTranslation();
-  const { signUp, isLoading } = useManageUsers();
+  const { createAdmin, isLoading } = useManageAdmin();
   const [isRegistrationComplete, setIsRegistrationComplete] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
+    taxId: "",
+    phoneNumber: "",
+    specialization: "",
+    city: "",
     password: "",
     confirmPassword: "",
   });
+
   const [passwordVisibility, setPasswordVisibility] = useState({
     password: false,
     confirmPassword: false,
@@ -31,15 +37,15 @@ const Registration = () => {
     }));
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const registrationSuccessful = await signUp({ formData });
+      const registrationSuccessful = await createAdmin({ formData });
       if (registrationSuccessful) {
         setIsRegistrationComplete(true);
       }
@@ -65,7 +71,7 @@ const Registration = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
-  // Step content basato sullo step attuale 1 e 2
+  // Step content based on current step
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
@@ -81,10 +87,50 @@ const Registration = () => {
             </h2>
             <div className="space-y-4">
               <InputField
-                name="name"
+                name="firstName"
                 type="text"
                 placeholder={t("name")}
-                value={formData.name}
+                value={formData.firstName}
+                onChange={handleInputChange}
+                icon="👤"
+              />
+              <InputField
+                name="lastName"
+                type="text"
+                placeholder={t("surname")}
+                value={formData.lastName}
+                onChange={handleInputChange}
+                icon="👤"
+              />
+              <InputField
+                name="taxId"
+                type="text"
+                placeholder={t("Tax Id")}
+                value={formData.taxId}
+                onChange={handleInputChange}
+                icon="👤"
+              />
+              <InputField
+                name="phoneNumber"
+                type="text"
+                placeholder={t("Numero di telefono")}
+                value={formData.phoneNumber}
+                onChange={handleInputChange}
+                icon="📞"
+              />
+              <InputField
+                name="specialization"
+                type="text"
+                placeholder={t("Campo di specializzazione")}
+                value={formData.specialization}
+                onChange={handleInputChange}
+                icon="🏨"
+              />
+              <InputField
+                name="city"
+                type="text"
+                placeholder={t("Città di appartenenza")}
+                value={formData.city}
                 onChange={handleInputChange}
                 icon="👤"
               />
@@ -146,8 +192,8 @@ const Registration = () => {
               <p className="text-xs text-gray-500 italic">
                 La password dev'essere composta da almeno 6 caratteri, almeno
                 una lettera maiuscola, un numero e un carattere speciale
+                (esempio: Ciao123!)
               </p>
-              <p className="text-xs text-bold">(esempio: Ciao123!)</p>
             </div>
             <div className="flex space-x-4 pt-4">
               <button
@@ -203,7 +249,7 @@ const Registration = () => {
                     label={t("account_details")}
                   />
 
-                  {/* barra di progresso */}
+                  {/* Progress bar */}
                   <div className="absolute top-5 h-1 bg-gray-200 left-0 right-0 z-0">
                     <motion.div
                       className="h-full bg-red-800"
@@ -249,10 +295,10 @@ const Registration = () => {
                   </Link>
 
                   <Link
-                    to="/registrationadmin"
+                    to="/registration"
                     className="text-sm text-gray-600 hover:text-red-800 transition-colors"
                   >
-                    {t("admin_or_structure")}{" "}
+                    {t("normal_user")}{" "}
                     <span className="font-medium text-red-800">
                       {t("click_here")}
                     </span>
@@ -296,7 +342,7 @@ const Registration = () => {
   );
 };
 
-// componente per gli indicatori degli step
+// Step indicator component
 const StepIndicator = ({ step, currentStep, label }) => {
   const isActive = step <= currentStep;
 
@@ -320,7 +366,7 @@ const StepIndicator = ({ step, currentStep, label }) => {
   );
 };
 
-// Input field componente con animazione
+// Input field component with animation
 const InputField = ({
   name,
   type,
@@ -352,7 +398,7 @@ const InputField = ({
           onBlur={() => setIsFocused(false)}
           className="w-full py-4 bg-transparent placeholder-gray-400 text-gray-800 focus:outline-none"
           required
-        />
+        />{" "}
         {isPassword && (
           <button
             type="button"
@@ -371,4 +417,4 @@ const InputField = ({
   );
 };
 
-export default Registration;
+export default RegistrationAdmin;

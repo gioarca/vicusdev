@@ -1,33 +1,45 @@
 import React, { useState, useEffect } from "react";
-import Loader from "../components/Loader";
-import { Link, useNavigate, Navigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader";
 import { animateScroll as scroll } from "react-scroll";
-import { useManageAuth } from "../hooks/auth/useManageAuth";
+import { useManageAuth } from "../../hooks/auth/useManageAuth";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
-const Login = ({ model }) => {
+const LoginAdmin = ({ model }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { userLogin, isLoading, user } = useManageAuth();
+  const { loginAdmin, isLoading, admin } = useManageAuth();
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const [passwordVisibility, setPasswordVisibility] = useState({
+    password: false,
+  });
+
+  const togglePasswordVisibility = (field) => {
+    setPasswordVisibility((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleInputChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const userData = await userLogin({ formData, model });
-      if (userData) {
-        navigate("/user/dashboard"); // ✅ QUESTO FA IL REDIRECT DIRETTO
+      const adminData = await loginAdmin({ formData, model });
+      if (adminData) {
+        navigate("/admin/dashboard"); // ✅ QUESTO FA IL REDIRECT DIRETTO
       }
-      console.log("User data:", userData);
+      console.log("Admin data:", adminData);
     } catch (error) {
       console.log("Error during login", error);
       alert("Email o password non corretti");
@@ -39,11 +51,14 @@ const Login = ({ model }) => {
   };
 
   useEffect(() => {
-    scroll.scrollToTop({ duration: 1000, smooth: "easeInOutQuad" });
-    if (user) {
-      navigate("/user/dashboard");
+    scroll.scrollToTop({
+      duration: 1000,
+      smooth: "easeInOutQuad",
+    });
+    if (admin) {
+      navigate("/admin/dashboard");
     }
-  }, [user, navigate]);
+  }, [admin, navigate]);
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -51,21 +66,21 @@ const Login = ({ model }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-gray-100 py-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="max-w-md w-full bg-white shadow-2xl rounded-3xl overflow-hidden"
+        variants={fadeInUp}
       >
         <div className="p-8">
           <div className="flex flex-col items-center">
             <h1 className="text-3xl font-light text-gray-800 mb-4">
               <span className="text-red-800 font-medium">
-                {t("welcome_back")}
+                {t("welcome_back")} Admin
               </span>
             </h1>
-            {/* <p className="text-gray-500 text-sm mb-8">{t("loginWithEmail")}</p> */}
 
             {isLoading ? (
               <div className="flex items-center justify-center py-10">
@@ -87,20 +102,26 @@ const Login = ({ model }) => {
                     value={formData.email}
                     onChange={handleInputChange}
                     icon="✉️"
+                    isPassword={false}
                   />
                   <InputField
                     name="password"
-                    type="password"
+                    type={passwordVisibility.password ? "text" : "password"}
                     placeholder={t("password")}
                     value={formData.password}
                     onChange={handleInputChange}
                     icon="🔒"
+                    isPassword={true}
+                    showPassword={passwordVisibility.password}
+                    onToggleVisibility={() =>
+                      togglePasswordVisibility("password")
+                    }
                   />
                 </div>
 
                 <div className="flex items-center justify-center">
                   <div className="font-medium text-red-800 hover:text-red-700 text-sm">
-                    <Link to="/user/password-reset ">
+                    <Link to="/admin/password-reset ">
                       {t("forgot_password")}
                     </Link>
                   </div>
@@ -117,19 +138,8 @@ const Login = ({ model }) => {
                 </div>
               </motion.form>
             )}
-
             <div className="mt-10 text-center space-y-4 w-full">
               <div className="border-t border-gray-100 pt-6 flex flex-col space-y-4">
-                <Link
-                  to="/loginadmin"
-                  className="text-sm text-gray-600 hover:text-red-800 transition-colors"
-                >
-                  {t("admin_account")}{" "}
-                  <span className="font-medium text-red-800">
-                    {t("click_here")}
-                  </span>
-                </Link>
-
                 <Link
                   to="/registration"
                   className="text-sm text-gray-600 hover:text-red-800 transition-colors"
@@ -144,7 +154,7 @@ const Login = ({ model }) => {
                   to="/registrationadmin"
                   className="text-sm text-gray-600 hover:text-red-800 transition-colors"
                 >
-                  {t("admin_or_structure")}{" "}
+                  {t("normal_user")}{" "}
                   <span className="font-medium text-red-800">
                     {t("click_here")}
                   </span>
@@ -158,8 +168,18 @@ const Login = ({ model }) => {
   );
 };
 
-// Input field component with animation
-const InputField = ({ name, type, placeholder, value, onChange, icon }) => {
+// Input field componente con animazione
+const InputField = ({
+  name,
+  type,
+  placeholder,
+  value,
+  onChange,
+  icon,
+  isPassword,
+  showPassword,
+  onToggleVisibility,
+}) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -181,9 +201,22 @@ const InputField = ({ name, type, placeholder, value, onChange, icon }) => {
           className="w-full py-4 bg-transparent placeholder-gray-400 text-gray-800 focus:outline-none"
           required
         />
+        {isPassword && (
+          <button
+            type="button"
+            onClick={onToggleVisibility}
+            className="ml-2 text-gray-400 hover:text-gray-600 focus:outline-none transition-colors duration-200"
+          >
+            {showPassword ? (
+              <IoEyeOffOutline className="w-5 h-5" />
+            ) : (
+              <IoEyeOutline className="w-5 h-5" />
+            )}
+          </button>
+        )}
       </div>
     </div>
   );
 };
 
-export default Login;
+export default LoginAdmin;

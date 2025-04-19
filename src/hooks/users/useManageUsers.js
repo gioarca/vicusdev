@@ -93,7 +93,7 @@ export const useManageUsers = () => {
     }
   };
 
-  // Ottieni info dell'utente - CORRETTO
+  // Ottieni info dell'utente
   const getUserProfile = async (userId) => {
     const id = userId || user?._id;
     if (!id) {
@@ -108,7 +108,6 @@ export const useManageUsers = () => {
 
   // Registrazione utente
   const signUp = async ({ formData }) => {
-    // Array degli endpoint da provare in ordine
     const response = await apiRequest("post", "/user/sign-up", formData, true);
 
     if (response?.status === 201) {
@@ -141,11 +140,12 @@ export const useManageUsers = () => {
       return false;
     }
 
-    // Pulizia dei dati
+    // Pulizia dei dati - rimuoviamo tutti i campi relativi alla password
     const dataToSend = { ...formData };
-    if (dataToSend.confirmPassword) {
-      delete dataToSend.confirmPassword;
-    }
+    delete dataToSend.password;
+    delete dataToSend.confirmPassword;
+    delete dataToSend.currentPassword;
+    delete dataToSend.newPassword;
 
     const response = await apiRequest(
       "put",
@@ -158,9 +158,50 @@ export const useManageUsers = () => {
       const updatedUser = response.data.user;
       dispatch({ type: "LOGIN", payload: { user: updatedUser, token } });
       toast.success("Utente aggiornato con successo.");
-      alert("Utente aggiornato con successo.");
       return true;
     }
+    return false;
+  };
+
+  // Funzione dedicata per il cambio password
+  const changePassword = async ({
+    currentPassword,
+    newPassword,
+    confirmPassword,
+  }) => {
+    if (!user?._id) {
+      toast.error("ID utente non disponibile");
+      return false;
+    }
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      toast.error("Tutti i campi password sono obbligatori");
+      return false;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast.error("La nuova password e la conferma non corrispondono");
+      return false;
+    }
+
+    const requestData = {
+      currentPassword,
+      password: newPassword,
+      confirmPassword,
+    };
+
+    const response = await apiRequest(
+      "put",
+      `/user/change-password/${user._id}`,
+      requestData,
+      true
+    );
+
+    if (response?.status === 200) {
+      toast.success("Password aggiornata con successo.");
+      return true;
+    }
+
     return false;
   };
 
@@ -196,10 +237,11 @@ export const useManageUsers = () => {
   };
 
   return {
+    isLoading,
     getUserProfile,
     signUp,
     updateUser,
+    changePassword,
     deleteUser,
-    isLoading,
   };
 };

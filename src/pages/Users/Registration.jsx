@@ -1,30 +1,24 @@
 import React, { useState, useEffect } from "react";
-import Loader from "../components/Loader";
+import Loader from "../../components/Loader";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { animateScroll as scroll } from "react-scroll";
-import { useManageAdmin } from "../hooks/admins/useManageAdmins";
+import { useManageUsers } from "../../hooks/users/useManageUsers";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
 
-const RegistrationAdmin = () => {
+const Registration = () => {
   const { t } = useTranslation();
-  const { createAdmin, isLoading } = useManageAdmin();
+  const { signUp, isLoading } = useManageUsers();
   const [isRegistrationComplete, setIsRegistrationComplete] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
-    taxId: "",
-    phoneNumber: "",
-    specialization: "",
-    city: "",
     password: "",
     confirmPassword: "",
   });
-
   const [passwordVisibility, setPasswordVisibility] = useState({
     password: false,
     confirmPassword: false,
@@ -37,15 +31,15 @@ const RegistrationAdmin = () => {
     }));
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const registrationSuccessful = await createAdmin({ formData });
+      const registrationSuccessful = await signUp({ formData });
       if (registrationSuccessful) {
         setIsRegistrationComplete(true);
       }
@@ -71,7 +65,7 @@ const RegistrationAdmin = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
-  // Step content based on current step
+  // Step content basato sullo step attuale 1 e 2
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
@@ -87,50 +81,10 @@ const RegistrationAdmin = () => {
             </h2>
             <div className="space-y-4">
               <InputField
-                name="firstName"
+                name="name"
                 type="text"
                 placeholder={t("name")}
-                value={formData.firstName}
-                onChange={handleInputChange}
-                icon="👤"
-              />
-              <InputField
-                name="lastName"
-                type="text"
-                placeholder={t("surname")}
-                value={formData.lastName}
-                onChange={handleInputChange}
-                icon="👤"
-              />
-              <InputField
-                name="taxId"
-                type="text"
-                placeholder={t("Tax Id")}
-                value={formData.taxId}
-                onChange={handleInputChange}
-                icon="👤"
-              />
-              <InputField
-                name="phoneNumber"
-                type="text"
-                placeholder={t("Numero di telefono")}
-                value={formData.phoneNumber}
-                onChange={handleInputChange}
-                icon="📞"
-              />
-              <InputField
-                name="specialization"
-                type="text"
-                placeholder={t("Campo di specializzazione")}
-                value={formData.specialization}
-                onChange={handleInputChange}
-                icon="🏨"
-              />
-              <InputField
-                name="city"
-                type="text"
-                placeholder={t("Città di appartenenza")}
-                value={formData.city}
+                value={formData.name}
                 onChange={handleInputChange}
                 icon="👤"
               />
@@ -192,8 +146,8 @@ const RegistrationAdmin = () => {
               <p className="text-xs text-gray-500 italic">
                 La password dev'essere composta da almeno 6 caratteri, almeno
                 una lettera maiuscola, un numero e un carattere speciale
-                (esempio: Ciao123!)
               </p>
+              <p className="text-xs text-bold">(esempio: Ciao123!)</p>
             </div>
             <div className="flex space-x-4 pt-4">
               <button
@@ -249,7 +203,7 @@ const RegistrationAdmin = () => {
                     label={t("account_details")}
                   />
 
-                  {/* Progress bar */}
+                  {/* barra di progresso */}
                   <div className="absolute top-5 h-1 bg-gray-200 left-0 right-0 z-0">
                     <motion.div
                       className="h-full bg-red-800"
@@ -295,10 +249,10 @@ const RegistrationAdmin = () => {
                   </Link>
 
                   <Link
-                    to="/registration"
+                    to="/registrationadmin"
                     className="text-sm text-gray-600 hover:text-red-800 transition-colors"
                   >
-                    {t("normal_user")}{" "}
+                    {t("admin_or_structure")}{" "}
                     <span className="font-medium text-red-800">
                       {t("click_here")}
                     </span>
@@ -342,7 +296,7 @@ const RegistrationAdmin = () => {
   );
 };
 
-// Step indicator component
+// componente per gli indicatori degli step
 const StepIndicator = ({ step, currentStep, label }) => {
   const isActive = step <= currentStep;
 
@@ -366,7 +320,7 @@ const StepIndicator = ({ step, currentStep, label }) => {
   );
 };
 
-// Input field component with animation
+// Input field componente con animazione
 const InputField = ({
   name,
   type,
@@ -398,7 +352,7 @@ const InputField = ({
           onBlur={() => setIsFocused(false)}
           className="w-full py-4 bg-transparent placeholder-gray-400 text-gray-800 focus:outline-none"
           required
-        />{" "}
+        />
         {isPassword && (
           <button
             type="button"
@@ -417,4 +371,4 @@ const InputField = ({
   );
 };
 
-export default RegistrationAdmin;
+export default Registration;
