@@ -7,6 +7,7 @@ import { useManageUsers } from "../../hooks/users/useManageUsers";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
+import EmailClientButtons from "../../components/Mail";
 
 const Registration = () => {
   const { t } = useTranslation();
@@ -281,15 +282,27 @@ const Registration = () => {
             <span className="font-medium">Registrazione completata!</span>
           </h2>
 
-          <p className="text-gray-600 mb-8">
-            Verifica la tua email per completare la registrazione.
+          <p className="text-gray-600 mb-4">
+            Abbiamo inviato un'email di verifica a{" "}
+            <strong>{formData.email}</strong>. Per favore verifica la tua email
+            per completare la registrazione.
           </p>
 
-          <Link to="/login">
-            <button className="py-3 px-8 rounded-full bg-gradient-to-r from-red-700 to-red-900 text-white font-medium transition-all duration-300 ease-in-out hover:shadow-lg transform hover:scale-105 focus:outline-none">
-              Vai al login
-            </button>
-          </Link>
+          {/* Inserito il componente EmailClientButtons */}
+          <EmailClientButtons email={formData.email} />
+
+          <div className="mt-6">
+            <Link to="/loginadmin">
+              <button className="py-3 px-8 rounded-full bg-gradient-to-r from-red-700 to-red-900 text-white font-medium transition-all duration-300 ease-in-out hover:shadow-lg transform hover:scale-105 focus:outline-none">
+                Vai al login
+              </button>
+            </Link>
+          </div>
+
+          <p className="mt-4 text-xs text-gray-500">
+            Controlla anche nelle cartelle spam o promozioni se non vedi
+            l'email.
+          </p>
         </motion.div>
       )}
     </div>

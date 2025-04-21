@@ -19,7 +19,9 @@ export const useManageAuth = () => {
     try {
       setIsLoading(true);
       console.log("Form data per login:", formData);
-      const response = await axios.post(`${baseURL}/${model}/login`, formData);
+      const response = await axios.post(`${baseURL}/${model}/login`, formData, {
+        withCredentials: true,
+      });
       const { codeRequested, ...json } = response.data;
 
       if (response.status === 200 && !codeRequested) {
@@ -33,6 +35,7 @@ export const useManageAuth = () => {
             },
           },
         });
+        console.log("User", json.user);
 
         localStorage.setItem("user", JSON.stringify(json.user));
         localStorage.setItem(
@@ -47,8 +50,9 @@ export const useManageAuth = () => {
         }
 
         setTimeout(() => {
-          navigate(`/${model}/dashboard`);
+          navigate(`/${model}/dashboard`); // ✅ QUESTO FA IL REDIRECT DIRETTO
         }, 200);
+
         return json;
       }
     } catch (error) {
@@ -78,6 +82,7 @@ export const useManageAuth = () => {
   const loginAdmin = async ({ formData, model = "admin" }) => {
     try {
       setIsLoading(true);
+      console.log("Form data per login:", formData);
       const res = await axios.post(`${baseURL}/${model}/login`, formData, {
         withCredentials: true,
       });
@@ -94,7 +99,7 @@ export const useManageAuth = () => {
             },
           },
         });
-        console.log("json", json.user);
+        console.log("Admin", json.user);
 
         localStorage.setItem("admin", JSON.stringify(json.user));
         localStorage.setItem(
@@ -107,13 +112,15 @@ export const useManageAuth = () => {
         if (model) {
           console.log("Il parametro model è definito");
         }
+        // Aggiunto il tempo mancante come nel metodo userLogin (200ms)
         setTimeout(() => {
-          navigate(`/${model}/dashboard`);
-        });
+          navigate(`/${model}/dashboard`); // ✅ QUESTO FA IL REDIRECT DIRETTO
+        }, 200);
+
         return json;
       }
     } catch (error) {
-      console.error("Error during login", error);
+      console.error("Errore durante il login:", error);
       alert(
         "Errore durante il login, i tuoi dati non sono corretti oppure il tuo account non è stato verificato"
       );
@@ -150,7 +157,7 @@ export const useManageAuth = () => {
         localStorage.removeItem("token");
         dispatch({ type: "LOGOUT" });
 
-        navigate("/signout"); // Redirect to the sign-out page
+        // navigate("/signout"); // Redirect to the sign-out page
       }
     } catch (error) {
       console.error("Error during logout:", error);

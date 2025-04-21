@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Loader from "../../components/Loader";
 import { animateScroll as scroll } from "react-scroll";
 import { useManageAuth } from "../../hooks/auth/useManageAuth";
@@ -9,8 +9,7 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
 const Login = ({ model }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { userLogin, isLoading, user } = useManageAuth();
+  const { userLogin, isLoading } = useManageAuth();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -35,11 +34,7 @@ const Login = ({ model }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const userData = await userLogin({ formData, model });
-      if (userData) {
-        navigate("/user/dashboard"); // ✅ QUESTO FA IL REDIRECT DIRETTO
-      }
-      console.log("User data:", userData);
+      await userLogin({ formData, model });
     } catch (error) {
       console.log("Error during login", error);
       alert("Email o password non corretti");
@@ -52,10 +47,7 @@ const Login = ({ model }) => {
 
   useEffect(() => {
     scroll.scrollToTop({ duration: 1000, smooth: "easeInOutQuad" });
-    if (user) {
-      navigate("/user/dashboard");
-    }
-  }, [user, navigate]);
+  }, []);
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
